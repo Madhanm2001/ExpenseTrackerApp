@@ -1,0 +1,67 @@
+#addFilter {
+    display: flex;
+    gap: 5vh;
+}
+
+#addFilter img {
+
+    height: 5vh;
+    width: 5vh;
+    margin: 1vh;
+
+}
+tr td{
+    padding:3vh
+}
+thead th{
+   padding: 1vh;
+    border: 3px solid rgb(37, 37, 37);
+}
+tbody td{
+     border: 1px solid rgb(37, 37, 37);
+}
+table{
+    text-align: center;
+}
+textarea{
+    height: 20vh;
+}
+
+select{
+    padding: 10px;
+}
+.buttonName{
+    margin-top: 2vh;
+}
+#TopSection{
+    display:flex;justify-content:space-between;border:none;gap:5vh
+}
+#addFilter button {
+display: flex;
+    padding: 1vh;
+    box-shadow: 0px 0px 10px grey;
+    border: none;
+    border-radius: 1vh;
+    backdrop-filter:unset;
+    font-weight: 600;
+    cursor: pointer;
+    
+    
+}
+#clearAll{
+    margin-top: 4vh;
+    font-weight: 600;
+    font-size: medium;
+    cursor: pointer;
+}
+
+@media screen and (max-width:500px) {
+    #addFilter button{
+        display: block;
+        margin-top: 2vh;
+    }
+    #clearAll{
+    margin-top: 6vh;
+}
+    
+}

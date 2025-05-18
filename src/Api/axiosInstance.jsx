@@ -1,19 +1,17 @@
 import axios from 'axios';
 const baseURL = import.meta.env.VITE_BACKEND_BASE_URL;
 
-const API_TOKEN=localStorage.getItem("JWTToken")
 
 const axiosInstance = axios.create({
   baseURL,
   headers: {
-    'Content-Type': 'application/json',
-    'Authorization':`Bearer ${API_TOKEN}`
+    'Content-Type': 'application/json'
   },
 });
 
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('JWTToken');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }

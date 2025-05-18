@@ -42,6 +42,7 @@ const calendarData={
 
     console.log(TransactionOverview,':gshdg');
     
+    const [transactions, setTransactions] = useState({income:0, expense: 0, balance: 0});
 
   useEffect(() => {
     console.log("in")
@@ -50,12 +51,17 @@ const calendarData={
       navigate('/sign-in')
     }
   }, [])
+  useEffect(()=>{
+    if(TransactionOverview?.data){
+      setTransactions(TransactionOverview?.data?.data)
+    }
+  },[TransactionOverview])
   for (let i = 2000; i <= currentYear; i++) {
     year.push(i);
   }
 
 
-  const onCalendarValue = (value) => {
+  const onCalendarValue = async(value) => {
   SetCalendarValue(value);
 
   const calendarData = {
@@ -65,7 +71,14 @@ const calendarData={
 
   console.log('Parsed calendarData:', value);
 
-  Api.transactionOverview(calendarData);
+  const resp = await Api.transactionOverview(calendarData);
+  if(resp.data){
+  setTransactions(resp?.data?.data)
+  }
+  else{
+    setTransactions({income:0, expense: 0, balance: 0})
+  }
+
 };
 
 
@@ -185,20 +198,20 @@ const calendarData={
           <div>
             <img src={BalanceLogo} alt="" />
             <h3>Current Balance</h3>
-            <h3>${TransactionOverview?.data?.balance || 0}</h3>
-            <p className="MoneyPercentage" style={{ backgroundColor: "navy", color: "white" }}>{TransactionOverview?.data?.balance || 0}%</p>
+            <h3>${transactions?.balance || 0}</h3>
+            <p className="MoneyPercentage" style={{ backgroundColor: "navy", color: "white" }}>{ 0}%</p>
           </div>
           <div>
             <img src={IncomeLogo} alt="" />
             <h3>Total Income</h3>
-            <h3>${TransactionOverview?.data?.income || 0}</h3>
-            <p className="MoneyPercentage">{TransactionOverview?.data?.income || 0}%</p>
+            <h3>${transactions?.income || 0}</h3>
+            <p className="MoneyPercentage">{0}%</p>
           </div>
           <div>
             <img src={ExpenseLogo} alt="" />
             <h3>Total Expense</h3>
-            <h3>${TransactionOverview?.data?.expense || 0}</h3>
-            <p className="MoneyPercentage" style={{ backgroundColor: "red" }}>{TransactionOverview?.data?.expense || 0}%</p>
+            <h3>${transactions?.expense || 0}</h3>
+            <p className="MoneyPercentage" style={{ backgroundColor: "red" }}>{0}%</p>
           </div>
 
         </div>

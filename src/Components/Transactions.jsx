@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "../Styles/Transaction.css";
 import PopUpModal from "../common/Modal";
-import filterTransaction from "../images/filterTransaction.jpg";
-import EditTransaction from "../images/EditTransaction.png";
-import DeleteTransaction from "../images/DeleteTransaction.jpg";
+import filterTransaction from "../images/FilterTransaction.jpg";
+// import EditTransaction from "../images/EditTransaction.png";
+// import DeleteTransaction from "../images/DeleteTransaction.jpg";
 import AddTransaction from "../images/AddTransaction.png";
 import * as Api from '../Api/Apis';
 import { useMutation, useQuery } from "@tanstack/react-query";

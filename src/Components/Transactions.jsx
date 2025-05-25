@@ -26,7 +26,7 @@ function Transactions() {
 
     const { data: TransactionList, isLoading, error } = useQuery({
         queryKey: 'TransactionList',
-        queryFn: () => Api.transactionList({ year: dateNew.getFullYear(), month: '' , startDate: '', endDate: '', type: 'all', category: "all" })
+        queryFn: () => Api.transactionList({ year: dateNew.getFullYear(), month: '', startDate: '', endDate: '', type: 'all', category: "all" })
     })
 
     useEffect(() => {
@@ -64,20 +64,20 @@ function Transactions() {
         setDateList('')
 
         setTransactionListDetails(data)
-        
+
 
         console.log(data, ":setTransactionListDetails");
 
-        if(data.startDate){
-            if(!data.endDate){
-toast.error('select To Date')
-            }  
+        if (data.startDate) {
+            if (!data.endDate) {
+                toast.error('select To Date')
+            }
         }
-        else if(data.endDate){
-            if(!data.startDate){
-                
-toast.error('select From Date')
-            }  
+        else if (data.endDate) {
+            if (!data.startDate) {
+
+                toast.error('select From Date')
+            }
         }
 
         Api.transactionList(data).then((res) => {
@@ -176,66 +176,59 @@ toast.error('select From Date')
     };
 
     const onChangeTransactionDetails = (e) => {
-    const { name, value } = e.target;
+        const { name, value } = e.target;
 
-    if (name === 'amount') {
-        if (!isNaN(value)) {
+        if (name === 'amount') {
+            if (!isNaN(value)) {
+                setTransactionDetails((prev) => ({
+                    ...prev,
+                    [name]: value,
+                }));
+            }
+        } else {
             setTransactionDetails((prev) => ({
                 ...prev,
                 [name]: value,
             }));
         }
-    } else {
-        setTransactionDetails((prev) => ({
-            ...prev,
-            [name]: value,
-        }));
-    }
-};
+    };
 
     console.log(transactionDetails);
 
 
 
-    const onClickMonth = (data,id) => {
-        setDateListToogle(!DateListToogle)
-        setMonthId(id)
+    const onClickMonth = (data, id) => {
+        const isSameMonthClicked = id === MonthId;
+        const willToggleOpen = !DateListToogle;
 
-        if(id===MonthId){
-setDateList('')
+        setMonthId(id);
+        setDateListToogle(willToggleOpen);
+
+        if (!willToggleOpen && isSameMonthClicked) {
+            setDateList('');
+            return;
         }
 
-        else {
-            Api.transactionList({ month: data, year: transactionListDetails.year, startDate: '', endDate: '', type: transactionListDetails.type || '', category: transactionListDetails.category || '' }).then((res) => {
-                
-            if (res.data.data.totalAmount != 0) {
-
-                setDateList(res?.data?.data?.transactionData)
-
-
+        Api.transactionList({
+            month: data,
+            year: transactionListDetails.year,
+            startDate: '',
+            endDate: '',
+            type: transactionListDetails.type || '',
+            category: transactionListDetails.category || ''
+        }).then((res) => {
+            if (res.data.data.totalAmount !== 0) {
+                setDateList(res?.data?.data?.transactionData);
+            } else {
+                setDateList('');
             }
-            else {
-                DateArr = []
-                setDateList('')
-            }
-
         }).catch(() => {
-            DateArr = []
-            setDateList('')
-        })
-
-        }
-    }
-
-console.log(DateArr,'gsfdghj',TransactionDataArray,':DateArr')
+            setDateList('');
+        });
+    };
 
     return (
         <div>
-
-
-
-
-
             <PopUpModal
                 show={show}
                 closeButton={true}
@@ -322,7 +315,7 @@ console.log(DateArr,'gsfdghj',TransactionDataArray,':DateArr')
                 <div id="clearAll">Clear All</div>
             </section>
             {showFilter && <FilterTransaction getTransactionFilterValues={getTransactionFilterValues} />}
-            {TransactionDataArray&& TransactionDataArray.length > 0?<table>
+            {TransactionDataArray && TransactionDataArray.length > 0 ? <table>
                 <thead>
                     <tr>
                         <th>{isNaN(TransactionDataArray[0]?.date) ? 'Date' : 'Month'}</th>
@@ -335,54 +328,54 @@ console.log(DateArr,'gsfdghj',TransactionDataArray,':DateArr')
                     {TransactionDataArray ? TransactionDataArray.map((data, id) => (
                         isNaN(data.date) ? <tr key={id} >
                             <td>{data.date}</td>
-                            <td>{data.type === 'income' ? data.amount : '-'}</td>
-                            <td>{data.type === 'expense' ? data.amount : '-'}</td>
+                            <td>{data.type === 'income' ? data.amount : '0'}</td>
+                            <td>{data.type === 'expense' ? data.amount : '0'}</td>
                             <td>{data.total}</td>
                         </tr> :
-                        <>
-                            <tr key={id} onClick={() => onClickMonth(data.date,id)}>
-                                <td>{data.date}</td>
-                                <td>{data.type === 'income' ? data.amount : '-'}</td>
-                                <td>{data.type === 'expense' ? data.amount : '-'}</td>
-                                <td>{data.total}</td>
-                                
-                            </tr>
-
-                            {MonthId==id&&DateArr&& DateArr.length > 0 ?
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Income</th>
-                            <th>Expense</th>
-                            <th>Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {DateArr ? DateArr.map((data, id) => (
-                            isNaN(data.date) ? <tr key={id} >
-                                <td>{data.date}</td>
-                                <td>{data.type === 'income' ? data.amount : '-'}</td>
-                                <td>{data.type === 'expense' ? data.amount : '-'}</td>
-                                <td>{data.total}</td>
-                            </tr> :
-                                <tr key={id} onClick={() => onClickMonth(data.date)}>
+                            <>
+                                <tr key={id} onClick={() => onClickMonth(data.date, id)}>
                                     <td>{data.date}</td>
-                                    <td>{data.type === 'income' ? data.amount : '-'}</td>
-                                    <td>{data.type === 'expense' ? data.amount : '-'}</td>
+                                    <td>{data.type === 'income' ? data.amount : '0'}</td>
+                                    <td>{data.type === 'expense' ? data.amount : '0'}</td>
                                     <td>{data.total}</td>
+
                                 </tr>
-                        )) : ""}
-                    </tbody>
-                </table>:''}
+
+                                {MonthId == id && DateArr && DateArr.length > 0 ?
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>Income</th>
+                                                <th>Expense</th>
+                                                <th>Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {DateArr ? DateArr.map((data, id) => (
+                                                isNaN(data.date) ? <tr key={id} >
+                                                    <td>{data.date}</td>
+                                                    <td>{data.type === 'income' ? data.amount : '0'}</td>
+                                                    <td>{data.type === 'expense' ? data.amount : '0'}</td>
+                                                    <td>{data.total}</td>
+                                                </tr> :
+                                                    <tr key={id} onClick={() => onClickMonth(data.date)}>
+                                                        <td>{data.date}</td>
+                                                        <td>{data.type === 'income' ? data.amount : '0'}</td>
+                                                        <td>{data.type === 'expense' ? data.amount : '0'}</td>
+                                                        <td>{data.total}</td>
+                                                    </tr>
+                                            )) : ""}
+                                        </tbody>
+                                    </table> : ''}
 
                             </>
                     )) : ""}
 
                 </tbody>
-            </table>:''}
+            </table> : ''}
 
-             {/* {DateArr&& DateListToogle&& DateArr.length > 0 ?
+            {/* {DateArr&& DateListToogle&& DateArr.length > 0 ?
                 <table>
                     <thead>
                         <tr>

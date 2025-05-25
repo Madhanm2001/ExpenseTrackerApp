@@ -5,11 +5,11 @@ const FilterTransaction = (props) => {
     const {getTransactionFilterValues}=props
     const date = new Date();
     const [selectedMonth, setSelectedMonth] = useState('');
-    const [selectedYear, setSelectedYear] = useState('');
+    const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
     const [fromDate, setFromDate] = useState('');
     const [toDate, setToDate] = useState('');
-    const [selectedType, setSelectedType] = useState('');
-    const [selectedCategory, setSelectedCategory] = useState('');
+    const [selectedType, setSelectedType] = useState('all');
+    const [selectedCategory, setSelectedCategory] = useState('all');
    
     const FromDate=fromDate?fromDate.split('-'):""
     const ToDate=toDate?toDate.split('-'):""
@@ -53,8 +53,8 @@ console.log(FilterValueObject,":FilterValueObject");
 
             <div style={{display:'flex',flexDirection:'column',gap:'2vh'}}>
                 <label>Month:</label>
-                <select style={{ padding: "10px",width:'30vh', borderRadius: "1vh", border: '2px solid grey' }} value={selectedMonth} onChange={(e) => setSelectedMonth(e.target.value)}>
-                    <option value="">Select Month</option>
+                <select style={{ padding: "10px",width:'30vh', borderRadius: "1vh", border: '2px solid grey' }} value={selectedMonth} onChange={(e) => {setSelectedMonth(e.target.value),!selectedYear&&setSelectedYear(new Date().getFullYear()),setFromDate(''),setToDate('')}}>
+                    <option value={''}>{'Select Month'}</option>
                     {MonthArr.map((month, idx) => (
                         <option value={idx + 1} key={idx}>{month}</option>
                     ))}
@@ -63,8 +63,8 @@ console.log(FilterValueObject,":FilterValueObject");
 
             <div style={{display:'flex',flexDirection:'column',gap:'2vh'}}>
                 <label>Year:</label>
-                <select style={{ padding: "10px",width:'30vh', borderRadius: "1vh", border: '2px solid grey' }} value={selectedYear} onChange={(e) => setSelectedYear(e.target.value)}>
-                    <option value="">Select Year</option>
+                <select style={{ padding: "10px",width:'30vh', borderRadius: "1vh", border: '2px solid grey' }} value={selectedYear} onChange={(e) => {setSelectedYear(e.target.value),setFromDate(''),setToDate('')}}>
+                    <option value={selectedYear?selectedYear:''}>{selectedYear||"Select Year"}</option>
                     {yearArr.map((year) => (
                         <option value={year} key={year}>{year}</option>
                     ))}
@@ -73,18 +73,18 @@ console.log(FilterValueObject,":FilterValueObject");
 
             <div style={{display:'flex',flexDirection:'column',gap:'2vh'}}>
                 <label>From Date:</label>
-                <input style={{ padding: "10px",width:'30vh', borderRadius: "1vh", border: '2px solid grey' }} type="date" value={fromDate} onChange={(e) => setFromDate(e.target.value)} />
+                <input style={{ padding: "10px",width:'30vh', borderRadius: "1vh", border: '2px solid grey' }} type="date" value={fromDate} onChange={(e) => {setFromDate(e.target.value),setSelectedYear(''),setSelectedMonth('')}} />
             </div>
 
             <div style={{display:'flex',flexDirection:'column',gap:'2vh'}}>
                 <label>To Date:</label>
-                <input style={{ padding: "10px",width:'30vh', borderRadius: "1vh", border: '2px solid grey' }} type="date" value={toDate} onChange={(e) => setToDate(e.target.value)} />
+                <input style={{ padding: "10px",width:'30vh', borderRadius: "1vh", border: '2px solid grey' }} type="date" value={toDate} onChange={(e) =>{setToDate(e.target.value),setSelectedYear(''),setSelectedMonth('')}} />
             </div>
 
             <div style={{display:'flex',flexDirection:'column',gap:'2vh'}}>
                 <label>Type:</label>
                 <select style={{ padding: "10px",width:'30vh', borderRadius: "1vh", border: '2px solid grey' }} value={selectedType} onChange={(e) => setSelectedType(e.target.value)}>
-                    <option value="">Select Type</option>
+                    <option value="">All</option>
                     <option value='income' >Income</option>
                     <option value='expense' >Expense</option>
                 </select>
@@ -93,7 +93,7 @@ console.log(FilterValueObject,":FilterValueObject");
             <div style={{display:'flex',flexDirection:'column',gap:'2vh'}}>
                 <label>Category:</label>
                 <select style={{ padding: "10px", width:'30vh',borderRadius: "1vh", border: '2px solid grey' }} value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
-                    <option value="">Select Category</option>
+                    <option value="">All</option>
                     {SelectedCategory.map((category) => (
                         <option value={category} key={category}>{category}</option>
                     ))}

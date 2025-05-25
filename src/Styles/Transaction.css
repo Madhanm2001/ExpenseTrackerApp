@@ -10,18 +10,20 @@
     margin: 1vh;
 
 }
-tr td{
-    padding:3vh
-}
+
 thead th{
-   padding: 1vh;
+    margin: 5vh;
+   padding: 5vh;
     border: 3px solid rgb(37, 37, 37);
 }
 tbody td{
+    margin: 5vh;
      border: 1px solid rgb(37, 37, 37);
+     padding: 5vh;
+     text-align: center;
 }
 table{
-    text-align: center;
+    margin: 0 25%;
 }
 textarea{
     height: 20vh;
@@ -55,7 +57,7 @@ display: flex;
     cursor: pointer;
 }
 
-@media screen and (max-width:500px) {
+@media screen and (max-width:480px) {
     #addFilter button{
         display: block;
         margin-top: 2vh;
@@ -63,5 +65,37 @@ display: flex;
     #clearAll{
     margin-top: 6vh;
 }
+table{
+    font-size: x-small;
+    margin: 0;
+}
+thead th{
+   padding: 3vh;
+
+}
+tbody td{
+     padding: 3vh;
+}
     
 }
+/* @media screen and (max-width:600px) {
+    #addFilter button{
+        display: block;
+        margin-top: 2vh;
+    }
+    #clearAll{
+    margin-top: 6vh;
+}
+table{
+    margin: 0 15%;
+    font-size: smaller;
+}
+thead th{
+   padding: 3vh;
+
+}
+tbody td{
+     padding: 3vh;
+}
+    
+} */

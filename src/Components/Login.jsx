@@ -4,6 +4,7 @@ import "../Styles/NavBar.css";
 import { Link } from "react-router-dom";
 import * as Api from '../Api/Apis';
 import { useMutation } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 
 function Login() {
 
@@ -20,48 +21,65 @@ function Login() {
     const [signUpDetails, setSignUpDetails] = useState({ firstName: "", lastName: "", email: "", password: "" });
     const [signUpDetailsErrors, setSignUpDetailsErrors] = useState({});
     const [invalidCredential, setInvalidCredential] = useState('')
-    const {
-        mutate: signUpMutate,
-        isLoading: isSignUpLoading,
-        isError: isSignUpError,
-        error: signUpError,
-        data: signUpData
-    } = useMutation({
-        mutationFn: Api.SignUpApi,
-        onSuccess: (res) => {
-            console.log('SignUp Success', res);
-            window.location.reload();
-        },
-        onError: (err) => console.error('SignUp Error', err),
-    });
+  const {
+    mutate: signInMutate,
+    isLoading: isSignInLoading,
+    isError: isSignInError,
+    error: signInError,
+    data: signInData
+} = useMutation({
+    mutationFn: Api.SignInApi,
+    onSuccess: (res) => {
+        const accessToken = res?.data?.data?.accessToken;
 
-    const {
-        mutate: signInMutate,
-        isLoading: isSignInLoading,
-        isError: isSignInError,
-        error: signInError,
-        data: signInData
-    } = useMutation({
-        mutationFn: Api.SignInApi,
-        onSuccess: (res) => {
+        if (accessToken) {
+            localStorage.setItem("JWTToken", accessToken);
 
-            if (res?.data?.data?.accessToken) {
-                localStorage.setItem("JWTToken", res.data.data.accessToken)
-                setSignUpDetails({
-                    firstName: "",
-                    lastName: "",
-                    email: "",
-                    password: ""
-                });
-                navigate('/')
-            }
-            else {
-                setInvalidCredential('Invalid email or password')
-            }
+            setSignUpDetails({
+                firstName: "",
+                lastName: "",
+                email: "",
+                password: ""
+            });
 
-        },
-        onError: (err) => setInvalidCredential('invalid email or password'),
-    });
+            toast.success('Login Successfully', {
+                autoClose: 1500,
+                onClose: () => navigate('/'), // Wait for toast to close before redirect
+            });
+        } else {
+            setInvalidCredential('Invalid email or password');
+            toast.error('Invalid email or password');
+        }
+    },
+    onError: (err) => {
+        setInvalidCredential('Invalid email or password');
+        toast.error('Login Failed');
+    },
+});
+
+const {
+    mutate: signUpMutate,
+    isLoading: isSignUpLoading,
+    isError: isSignUpError,
+    error: signUpError,
+    data: signUpData
+} = useMutation({
+    mutationFn: Api.SignUpApi,
+    onSuccess: (res) => {
+        console.log('SignUp Success', res);
+        toast.success('Create Account Successfully', {
+            autoClose: 1500,
+            onClose: () => window.location.reload(), // wait for toast before reload
+        });
+    },
+    onError: (err) => {
+        console.error('SignUp Error', err);
+        toast.error('SignUp Failed');
+    },
+});
+
+
+
     console.log(invalidCredential);
 
 

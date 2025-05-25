@@ -12,7 +12,9 @@ import PopUpModal from "../common/Modal";
 import { useNavigate } from "react-router-dom";
 import * as Api from '../Api/Apis'
 import { useQuery } from "@tanstack/react-query";
-
+import { toast,Slide } from "react-toastify";
+import '../Styles/toastStyles.css'
+import 'react-toastify/dist/ReactToastify.css'; 
 
 
 function HeroSection() {
@@ -53,6 +55,19 @@ const calendarData={
   }, [])
   useEffect(()=>{
     if(TransactionOverview?.data){
+//     toast('Welcome Home', {
+//   position: "top-center",
+//   autoClose: 1000,
+//   hideProgressBar: true,
+//   closeOnClick: false,
+//   pauseOnHover: false,
+//   draggable: true,
+//   progress: undefined,
+//   theme: "light",
+//   transition: Slide,
+//   className: 'custom-toast',
+//   bodyClassName: 'custom-toast-body',
+// });
       setTransactions(TransactionOverview?.data?.data)
     }
   },[TransactionOverview])
@@ -116,9 +131,9 @@ const calendarData={
               selected={CalendarValue}
               id="HomeCalendar"
               onChange={onCalendarValue}
-              dateFormat="MM/yyyy"
-              className="my-custom-datepicker"
-              showMonthYearPicker />
+              dateFormat="MM/YYYY"
+              showMonthYearPicker
+              readOnly />
           </div>
 
 

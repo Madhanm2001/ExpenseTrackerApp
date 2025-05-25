@@ -1,0 +1,13 @@
+.custom-toast {
+  background-color: #f1b9ff !important; /* Mustard Yellow */
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(138, 138, 138, 0.1);
+  color: #000000;
+}
+
+.custom-toast-body {
+  font-weight: bold;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 16px;
+  color: #000000;
+}

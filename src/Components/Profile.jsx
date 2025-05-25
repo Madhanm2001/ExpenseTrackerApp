@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import PopUpModal from "../common/Modal";
 import * as Api from '../Api/Apis';
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 
 function Profile() {
     const [show, setShow] = useState(false)
@@ -51,7 +52,7 @@ function Profile() {
     const errors = {};
     if (!ResetPasswordDetails.oldPassword.trim()) {
         errors.oldPassword = "old password cannot be empty";
-    } else if (ResetPasswordDetails.oldPassword.trim().length !== 8) {
+    } else if (!(ResetPasswordDetails.oldPassword.length >= 8 && ResetPasswordDetails.oldPassword.length <= 15)) {
         errors.oldPassword = "old password should be in 8 letters";
     }
     if (!ResetPasswordDetails.newPassword.trim()) {
@@ -111,7 +112,11 @@ const validateProfileUpdateForm = () => {
                     newPassword: ""
                 });
                 setResetPasswordErrors({ oldPassword: "", newPassword: "" })
-                window.location.reload();
+                toast.info('Password is Changed', {
+                autoClose: 1500,
+                onClose: () => window.location.reload()
+            });
+                
             }
             else {
                 setResetPasswordErrors({ oldPassword: "old password is not valid" })
@@ -141,7 +146,10 @@ const validateProfileUpdateForm = () => {
                 setProfileDetailsErrors({ firstName: "",
                     lastName: "",
                     email:'' })
-                window.location.reload();
+                toast.info('Profile Details are Updated', {
+                autoClose: 1500,
+                onClose: () => window.location.reload()
+            });
             }
         },
         onError: (err) => console.error('Login Error', err),

@@ -42,20 +42,52 @@ function Transactions() {
     let DateArr = []
 
     for (const key in transactionListResponse) {
+  const transactions = transactionListResponse[key]?.transactions || [];
 
-        console.log(key);
-        TransactionDataArray.push({ date: key, amount: transactionListResponse[key].transactions[0].amount, type: transactionListResponse[key].transactions[0].type, total: transactionListResponse[key].total })
-        console.log(TransactionDataArray);
+  let income = 0;
+  let expense = 0;
 
+  transactions.forEach((data) => {
+    if (data.type === 'income') {
+      income += data.amount;
+    } else if (data.type === 'expense') {
+      expense += data.amount;
     }
+  });
 
-    for (const key in DateList) {
+  TransactionDataArray.push({
+    date: key,
+    income,
+    expense,
+    total: transactionListResponse[key].total
+  });
+}
 
-        console.log(key);
-        DateArr.push({ date: key, amount: DateList[key].transactions[0].amount, type: DateList[key].transactions[0].type, total: DateList[key].total })
-        console.log(DateArr);
 
+    DateArr = [];
+
+for (const key in DateList) {
+  const transactions = DateList[key]?.transactions || [];
+
+  let income = 0;
+  let expense = 0;
+
+  transactions.forEach((data) => {
+    if (data.type === 'income') {
+      income += data.amount;
+    } else if (data.type === 'expense') {
+      expense += data.amount;
     }
+  });
+
+  DateArr.push({
+    date: key,
+    income,
+    expense,
+    total: DateList[key].total
+  });
+}
+
 
     const getTransactionFilterValues = async (data) => {
 
@@ -139,7 +171,10 @@ function Transactions() {
                     amount: "", type: "", category: "", date: "", description: ""
                 });
                 setTransactionDetailsErrors({ amount: "", type: "", category: "", date: "", description: "" })
-                window.location.reload();
+                 toast.info('Transaction is Created', {
+                                autoClose: 1500,
+                                onClose: () => window.location.reload()
+                            });
             }
             else {
                 setTransactionDetailsErrors({ amount: "", type: "", category: "", date: "", description: "" })
@@ -312,7 +347,11 @@ function Transactions() {
                     )) : ""} */}
                 </div>
 
-                <div id="clearAll">Clear All</div>
+                <div id="clearAll" onClick={()=>{
+                    setTransactionListResponse('')
+                    setTransactionListDetails('')
+                    setShowFilter(false)
+                }}>Clear All</div>
             </section>
             {showFilter && <FilterTransaction getTransactionFilterValues={getTransactionFilterValues} />}
             {TransactionDataArray && TransactionDataArray.length > 0 ? <table>
@@ -328,15 +367,17 @@ function Transactions() {
                     {TransactionDataArray ? TransactionDataArray.map((data, id) => (
                         isNaN(data.date) ? <tr key={id} >
                             <td>{data.date}</td>
-                            <td>{data.type === 'income' ? data.amount : '0'}</td>
-                            <td>{data.type === 'expense' ? data.amount : '0'}</td>
-                            <td>{data.total}</td>
+                            <td>{data?.income || 0}</td>
+<td>{data?.expense || 0}</td>
+
+                            <td>{data?.total}</td>
                         </tr> :
                             <>
                                 <tr key={id} onClick={() => onClickMonth(data.date, id)}>
                                     <td>{data.date}</td>
-                                    <td>{data.type === 'income' ? data.amount : '0'}</td>
-                                    <td>{data.type === 'expense' ? data.amount : '0'}</td>
+                                    <td>{data?.income || 0}</td>
+<td>{data?.expense || 0}</td>
+
                                     <td>{data.total}</td>
 
                                 </tr>
@@ -355,14 +396,16 @@ function Transactions() {
                                             {DateArr ? DateArr.map((data, id) => (
                                                 isNaN(data.date) ? <tr key={id} >
                                                     <td>{data.date}</td>
-                                                    <td>{data.type === 'income' ? data.amount : '0'}</td>
-                                                    <td>{data.type === 'expense' ? data.amount : '0'}</td>
+                                                   <td>{data?.income || 0}</td>
+<td>{data?.expense || 0}</td>
+
                                                     <td>{data.total}</td>
                                                 </tr> :
                                                     <tr key={id} onClick={() => onClickMonth(data.date)}>
                                                         <td>{data.date}</td>
-                                                        <td>{data.type === 'income' ? data.amount : '0'}</td>
-                                                        <td>{data.type === 'expense' ? data.amount : '0'}</td>
+                                                        <td>{data?.income || 0}</td>
+<td>{data?.expense || 0}</td>
+
                                                         <td>{data.total}</td>
                                                     </tr>
                                             )) : ""}

@@ -18,6 +18,8 @@ function NavBar() {
   const navigate = useNavigate()
 
   useEffect(() => {
+    const id = Number(localStorage.getItem('onActiveTab')) || 0;
+  setActiveId(id);
     const handleResize = () => {
       const isNowDesktop = window.innerWidth > 912;
       setIsDesktop(isNowDesktop);
@@ -47,6 +49,7 @@ function NavBar() {
 
   const onNavBarClick = (id) => {
     setActiveId(id);
+    localStorage.setItem('onActiveTab',id)
     setIsMenuOpen(false);
   };
 

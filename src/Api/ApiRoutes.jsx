@@ -1,3 +1,5 @@
+import { transactionList } from "./Apis";
+
 export const RoutApi={
     Auth:{
         signUp:"/auth/signup",
@@ -11,6 +13,7 @@ export const RoutApi={
     Transaction:{
         transactionOverview:'/transaction/overview',
         createTransaction:'/transaction/create',
-        transactionList:'/transaction/list'
+        transactionList:'/transaction/list',
+        transactionDetails:'/transaction/detail'
     }
 } 

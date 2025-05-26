@@ -133,7 +133,7 @@ const calendarData={
               onChange={onCalendarValue}
               dateFormat="MM/YYYY"
               showMonthYearPicker
-              readOnly />
+             />
           </div>
 
 

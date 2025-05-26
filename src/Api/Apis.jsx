@@ -124,3 +124,15 @@ export const transactionList = async (data) => {
   }
 };
 
+export const transactionDetails = async (date) => {
+
+   const url = `${RoutApi.Transaction.transactionDetails}?date=${date}`;
+  try {
+    const response = await axiosInstance.get(url);
+    console.log(response);
+    return response;
+  } catch (err) {
+    console.error("Transaction Overview API Error:", err);
+    throw err; 
+  }
+};

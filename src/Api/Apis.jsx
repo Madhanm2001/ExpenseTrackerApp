@@ -136,3 +136,29 @@ export const transactionDetails = async (date) => {
     throw err; 
   }
 };
+
+export const transactionDetailsEdit = async (id,data) => {
+  
+  
+   const url = `${RoutApi.Transaction.transactionDetailsEdit}/${id}`;
+  try {
+    const response = await axiosInstance.put(url,data);
+    console.log(response);
+    return response;
+  } catch (err) {
+    console.error("Transaction Overview API Error:", err);
+    throw err; 
+  }
+};
+
+export const transactionDetailsDelete = async (id) => {
+   const url = `${RoutApi.Transaction.transactionDetailsDelete}/${id}`;
+  try {
+    const response = await axiosInstance.delete(url);
+    console.log(response);
+    return response;
+  } catch (err) {
+    console.error("Transaction Overview API Error:", err);
+    throw err; 
+  }
+};

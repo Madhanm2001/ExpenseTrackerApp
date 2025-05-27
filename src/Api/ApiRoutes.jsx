@@ -1,4 +1,4 @@
-import { transactionList } from "./Apis";
+import { transactionDetails, transactionList } from "./Apis";
 
 export const RoutApi={
     Auth:{
@@ -14,6 +14,8 @@ export const RoutApi={
         transactionOverview:'/transaction/overview',
         createTransaction:'/transaction/create',
         transactionList:'/transaction/list',
-        transactionDetails:'/transaction/detail'
+        transactionDetails:'/transaction/detail',
+        transactionDetailsEdit:'/transaction/update',
+        transactionDetailsDelete:'/transaction',
     }
 } 

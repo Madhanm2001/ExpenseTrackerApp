@@ -71,6 +71,12 @@ const {
             autoClose: 1500,
             onClose: () => window.location.reload(), // wait for toast before reload
         });
+        setSignUpDetails({
+            firstName: "",
+            lastName: "",
+            email: "",
+            password: ""
+        });
     },
     onError: (err) => {
         console.error('SignUp Error', err);
@@ -96,13 +102,9 @@ const {
         const errors = onFormValidate();
         if (Object.keys(errors).length === 0) {
             signUpMutate(signUpDetails);
+            
         }
-        setSignUpDetails({
-            firstName: "",
-            lastName: "",
-            email: "",
-            password: ""
-        });
+        
         setInvalidCredential('')
     };
 

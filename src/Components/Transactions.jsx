@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import "../Styles/Transaction.css";
 import PopUpModal from "../common/Modal";
 import filterTransaction from "../images/FilterTransaction.jpg";
-// import EditTransaction from "../images/EditTransaction.png";
-// import DeleteTransaction from "../images/DeleteTransaction.jpg";
+import EditTransaction from "../images/EditTransaction.png";
+import DeleteTransaction from "../images/DeleteTransaction.jpg";
 import AddTransaction from "../images/AddTransaction.png";
 import * as Api from '../Api/Apis';
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -11,7 +11,7 @@ import FilterTransaction from "./FilterTransaction";
 import { toast } from "react-toastify";
 
 function Transactions() {
-    const [transactionDetails, setTransactionDetails] = useState({ amount: "", type: "", category: "", date: "", description: "" })
+    const [transactionDetails, setTransactionDetails] = useState({ amount: "", type: "", category: "", date: "", description: "", id: '' })
     const [show, setShow] = useState(false);
     const [showFilter, setShowFilter] = useState(false);
     const [transactionDetailsErrors, setTransactionDetailsErrors] = useState('')
@@ -23,6 +23,7 @@ function Transactions() {
     const [DateId, setDateId] = useState('')
     const [DateListToogle, setDateListToogle] = useState(false)
     const [DateDetailsToogle, setDateDetailsToogle] = useState(false)
+    const [isEdit, setIsEdit] = useState(false)
     const dateNew = new Date()
 
 
@@ -38,6 +39,8 @@ function Transactions() {
     }, [TransactionList])
 
     const handleAddClick = () => {
+        setIsEdit(false)
+        setTransactionDetails({ amount: "", type: "", category: "", date: "", description: "" })
         setShow(true);
     };
 
@@ -144,7 +147,7 @@ function Transactions() {
 
         Api.transactionList(data).then((res) => {
             if (res.data.data.totalAmount != 0) {
-
+setShowFilter(false)
                 setTransactionListResponse(res?.data?.data?.transactionData)
 
 
@@ -173,13 +176,21 @@ function Transactions() {
             category: transactionDetails.category
         }
 
+
+
         const errors = onFormValidate();
         if (Object.keys(errors).length === 0) {
-
-            CreateTransactionMutate(CreateTransactionDate)
-            console.log(CreateTransactionDate);
-
-
+            if (isEdit) {
+                EditTransactionMutate({
+  id: transactionDetails.id,
+  data: CreateTransactionDate
+});
+                console.log(CreateTransactionDate, JSON.parse(JSON.stringify(transactionDetails.id)), 'CreateTransactionDate');
+            }
+            else {
+                CreateTransactionMutate(CreateTransactionDate)
+                console.log(CreateTransactionDate);
+            }
         }
 
     };
@@ -191,7 +202,7 @@ function Transactions() {
         error: CreateTransactionError,
         data: CreateTransactionData
     } = useMutation({
-        mutationKey: ["resetPassword"],
+        mutationKey: ["createTrasaction"],
         mutationFn: Api.createTransaction,
         onSuccess: (res) => {
 
@@ -213,11 +224,43 @@ function Transactions() {
         onError: (err) => console.error('Login Error', err),
     });
 
+
+    const {
+        mutate: EditTransactionMutate,
+        isLoading: isEditTransactionLoading,
+        isError: isEditTransactionError,
+        error: EditTransactionError,
+        data: isEditTransactionData
+    } = useMutation({
+        mutationKey: ["editTransaction"],
+        mutationFn: ({ id, data }) => Api.transactionDetailsEdit(id, data),
+        onSuccess: (res) => {
+
+            if (res) {
+
+                setTransactionDetails({
+                    amount: "", type: "", category: "", date: "", description: ""
+                });
+                setTransactionDetailsErrors({ amount: "", type: "", category: "", date: "", description: "" })
+                toast.info('Transaction is Updated', {
+                    autoClose: 1500,
+                    onClose: () => window.location.reload()
+                });
+            }
+            else {
+                setTransactionDetailsErrors({ amount: "", type: "", category: "", date: "", description: "" })
+            }
+        },
+        onError: (err) => console.error('Login Error', err),
+    });
+    console.log('edited:', transactionDetails);
+
+
     const onFormValidate = () => {
         const errors = {};
         const amount = /[0-9]/
 
-        if (!transactionDetails.amount.trim()) {
+        if (!String(transactionDetails.amount).trim()) {
             errors.amount = "amount cannot be empty";
         }
         else if (!amount.test(transactionDetails.amount)) {
@@ -267,16 +310,18 @@ function Transactions() {
         const willToggleOpen = !DateListToogle;
 
         setMonthId(id);
+        setDateList('')
+        DateArr=''
+        setDateDetails('')
         setDateListToogle(willToggleOpen);
 
         if (!willToggleOpen && isSameMonthClicked) {
             setDateList('');
             return;
         }
-
         Api.transactionList({
             month: data,
-            year: transactionListDetails.year||2025,
+            year: transactionListDetails.year || 2025,
             startDate: '',
             endDate: '',
             type: transactionListDetails.type || 'all',
@@ -292,10 +337,31 @@ function Transactions() {
         });
     };
 
+    const onDetailEditClick = (id, data, date) => {
+        console.log(id, data)
+        setTransactionDetails({ amount: data.expense || data.income, type: data.expense ? 'expense' : 'income', description: data.Description, category: data.category, date: date, id: data.id })
+        setShow(true)
+        setIsEdit(true)
+    }
+
+    const onDetailDeleteClick = (id) => {
+        Api.transactionDetailsDelete(id).then((res)=>{
+           if(res) {
+            window.location.reload()
+           }
+        })
+        .catch((err)=>{
+
+            console.log("error happens");
+            
+
+        })
+    }
+
     const onClickDate = (date, id) => {
         const isSameDateClicked = id === DateId;
         const willToggleOpen = !DateDetailsToogle;
-
+        setDateDetails('')
         setDateId(id);
         setDateDetailsToogle(willToggleOpen);
 
@@ -316,6 +382,39 @@ function Transactions() {
         });
     };
 
+    const onClearAll=()=>{
+         DateArr = []
+        DetailArr = []
+        TransactionDataArray = []
+        setDateList('')
+        setDateListToogle(false);
+        setDateDetailsToogle(false)
+        setTransactionListDetails(false)
+        setMonthId(null)
+        setDateId(null)
+
+
+        console.log(data, ":setTransactionListDetails");
+
+
+        Api.transactionList({ startDate: '', endDate: '', year: new Date().getFullYear(), month: '', type: 'all', category: 'all' }).then((res) => {
+            if (res.data.data.totalAmount != 0) {
+
+                setTransactionListResponse(res?.data?.data?.transactionData)
+
+
+            }
+            else {
+                TransactionDataArray = []
+                setTransactionListResponse('')
+            }
+
+        }).catch(() => {
+            TransactionDataArray = []
+            setTransactionListResponse('')
+        })
+    }
+
     console.log(DetailArr)
     const MonthName = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
@@ -326,7 +425,7 @@ function Transactions() {
                 closeButton={true}
                 closeFunction={() => setShow(false)}
                 overlayFunction={() => setShow(false)}
-                headerContent={"Create Transaction"}
+                headerContent={isEdit ? "Edit Transaction" : "Create Transaction"}
                 bodyContent={
                     <>
                         <div className="restform">
@@ -368,7 +467,7 @@ function Transactions() {
                 }
                 footerContent={
                     <>
-                        <button onClick={onSubmitTransactionDetails} >Submit</button>
+                        <button onClick={onSubmitTransactionDetails} >{isEdit ? "Update" : "Submit"}</button>
                         <button onClick={() => setShow(false)}>Cancel</button>
                     </>
                 }
@@ -376,10 +475,10 @@ function Transactions() {
             <section id='TopSection'>
                 <div id="addFilter">
                     <button onClick={handleAddClick}>
-                        <div className="buttonName">Create Transaction</div><img src={AddTransaction} alt="Add Transaction" />
+                        <img src={AddTransaction} alt="Add Transaction" />
                     </button>
                     <button onClick={() => setShowFilter(!showFilter)}>
-                        <div className="buttonName" id="button2">Filter Transaction</div><img src={filterTransaction} alt="Filter Transaction" />
+                        <img src={filterTransaction} alt="Filter Transaction" />
                     </button>
                     {/* <button>
           <img src={EditTransaction} alt="Edit Transaction" />
@@ -404,11 +503,7 @@ function Transactions() {
                     )) : ""} */}
                 </div>
 
-                <div id="clearAll" onClick={() => {
-                    setTransactionListResponse('')
-                    setTransactionListDetails('')
-                    setShowFilter(false)
-                }}>Clear All</div>
+                <div id="clearAll" onClick={onClearAll}>Clear All</div>
             </section>
             {showFilter && <FilterTransaction getTransactionFilterValues={getTransactionFilterValues} />}
             {TransactionDataArray && TransactionDataArray.length > 0 ? <table>
@@ -421,15 +516,15 @@ function Transactions() {
                     </tr>
                 </thead>
                 <tbody>
-                    {TransactionDataArray ? TransactionDataArray.map((data, id) => (
-                        isNaN(data.date) ?
+                    {TransactionDataArray ? TransactionDataArray.map((detail, id) => (
+                        isNaN(detail.date) ?
                             <>
 
-                                <tr key={id} onClick={() => onClickDate(data.date, id)} >
-                                    <td>{data.date}</td>
-                                    <td>{data?.income || 0}</td>
-                                    <td>{data?.expense || 0}</td>
-                                    <td>{data?.total}</td>
+                                <tr key={id} onClick={() => onClickDate(detail.date, id)} >
+                                    <td>{detail.date.split('T')[0]}</td>
+                                    <td>{detail?.income || 0}</td>
+                                    <td>{detail?.expense || 0}</td>
+                                    <td>{detail?.total}</td>
                                 </tr>
 
                                 {DateId == id && DetailArr && DetailArr.length > 0 ?
@@ -454,8 +549,8 @@ function Transactions() {
                                                     <td>{data?.income || 0}</td>
                                                     <td>{data?.expense || 0}</td>
                                                     <td>{data.Description}</td>
-                                                    <td>Delete</td>
-                                                    <td>Edit</td>
+                                                    <td onClick={() => { onDetailEditClick(data?.id, data, detail.date.split('T')[0]) }}><img className='detaillogo' src={EditTransaction} alt="" /></td>
+                                                    <td onClick={() => { onDetailDeleteClick(data?.id) }}><img className='detaillogo' src={DeleteTransaction} alt="" /></td>
                                                 </tr>
                                             )) : ""}
                                         </tbody>
@@ -464,11 +559,11 @@ function Transactions() {
                             </>
                             :
                             <>
-                                <tr key={id} onClick={() => onClickMonth(data.date, id)}>
-                                    <td>{MonthName[Number(data.date)]}</td>
-                                    <td>{data?.income || 0}</td>
-                                    <td>{data?.expense || 0}</td>
-                                    <td>{data.total}</td>
+                                <tr key={id} onClick={() => onClickMonth(detail.date, id)}>
+                                    <td>{MonthName[Number(detail.date - 1)]}</td>
+                                    <td>{detail?.income || 0}</td>
+                                    <td>{detail?.expense || 0}</td>
+                                    <td>{detail.total}</td>
                                 </tr>
 
                                 {MonthId == id && DateArr && DateArr.length > 0 ?
@@ -482,43 +577,44 @@ function Transactions() {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {DateArr ? DateArr.map((data, id) => (
-                                                isNaN(data.date) ? 
-                                                <><tr key={id} onClick={() => onClickDate(data.date, id)} >
-                                                    <td>{data.date}</td>
-                                                    <td>{data?.income || 0}</td>
-                                                    <td>{data?.expense || 0}</td>
-                                                    <td>{data.total}</td>
-                                                </tr> 
-                                                {DateId == id && DetailArr && DetailArr.length > 0 ?
-                                    <table>
-                                        <thead>
-                                            <tr>
-                                                <th>S.no</th>
-                                                <th>Category</th>
-                                                <th>Income</th>
-                                                <th>Expense</th>
-                                                <th>Description</th>
-                                                <th>Edit</th>
-                                                <th>Delete</th>
+                                            {DateArr ? DateArr.map((detail, id) => (
+                                                isNaN(detail.date) ?
+                                                    <><tr key={id} onClick={() => onClickDate(detail.date, id)} >
+                                                        <td>{detail.date.split('T')[0]}</td>
+                                                        <td>{detail?.income || 0}</td>
+                                                        <td>{detail?.expense || 0}</td>
+                                                        <td>{detail.total}</td>
+                                                    </tr>
+                                                        {DateId == id && DetailArr && DetailArr.length > 0 ?
+                                                            <table>
+                                                                <thead className='DetailList'>
+                                                                    <tr>
+                                                                        <th>S.no</th>
+                                                                        <th>Category</th>
+                                                                        <th>Income</th>
+                                                                        <th>Expense</th>
+                                                                        <th>Description</th>
+                                                                        <th>Edit</th>
+                                                                        <th>Delete</th>
 
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {DetailArr ? DetailArr.map((data, index) => (
-                                                isNaN(data.date) && <tr key={id} >
-                                                    <td>{index + 1}</td>
-                                                    <td>{data?.category || 0}</td>
-                                                    <td>{data?.income || 0}</td>
-                                                    <td>{data?.expense || 0}</td>
-                                                    <td>{data.Description}</td>
-                                                    <td>Delete</td>
-                                                    <td>Edit</td>
-                                                </tr>
-                                            )) : ""}
-                                        </tbody>
-                                    </table> : ''}</>
-                                                :
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody className='DetailList'>
+                                                                    {DetailArr ? DetailArr.map((data, index) => (
+                                                                        isNaN(data.date) && <tr key={id} >
+                                                                            <td>{index + 1}</td>
+                                                                            <td>{data?.category || 0}</td>
+                                                                            <td>{data?.income || 0}</td>
+                                                                            <td>{data?.expense || 0}</td>
+                                                                            <td>{data.Description}</td>
+                                                                            <td onClick={() => { onDetailEditClick(data.id, data, detail.date.split('T')[0]) }}><img className='detaillogo' src={EditTransaction} alt="" /></td>
+                                                                            <td onClick={() => { onDetailDeleteClick(data.id) }}><img className='detaillogo' src={DeleteTransaction} alt="" /></td>
+
+                                                                        </tr>
+                                                                    )) : ""}
+                                                                </tbody>
+                                                            </table> : ''}</>
+                                                    :
                                                     <tr key={id} onClick={() => onClickMonth(data.date)}>
                                                         <td>{data.date}</td>
                                                         <td>{data?.income || 0}</td>

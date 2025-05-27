@@ -15,19 +15,30 @@ thead th{
     margin: 5vh;
     border: 3px solid rgb(37, 37, 37);
 }
+
+.detaillogo{
+    height: 20px;
+    width: 20px;
+    padding: 10px;
+}
+/* .DetailList td{
+    border: none;
+}
+.DetailList th{
+    border: none;
+} */
 tbody td{
     margin: 5vh;
      border: 1px solid rgb(37, 37, 37);
      text-align: center;
 }
 table{
-    max-width: 100px
+    max-width:10px;
+    margin: 2vh 0;
 }
 textarea{
     height: 20vh;
 }
-
-
 select{
     padding: 10px;
 }
@@ -56,6 +67,7 @@ display: flex;
     cursor: pointer;
 }
 
+
 @media screen and (max-width:480px) {
     #addFilter button{
         display: block;
@@ -64,9 +76,18 @@ display: flex;
     #clearAll{
     margin-top: 6vh;
 }
+.detaillogo{
+    height: 3vh;
+    width: 3vh;
+}
+#addFilter img {
+    height: 3vh;
+    width: 3vh;
+    margin: 1vh;
+}
 table{
-    font-size: x-small;
-    margin: 0;
+    font-size: xx-small;
+    margin: 2vh 0;
     display: block;
 }
     

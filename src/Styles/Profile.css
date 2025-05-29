@@ -10,6 +10,19 @@ body{
     background-color: aliceblue;
 
 }
+.eyeHint{
+  cursor:pointer;
+  margin-top:3%;
+  margin-left:-11%
+}
+
+@media screen and (max-width:400px) {
+  .eyeHint{
+  cursor:pointer;
+  margin-top:3%;
+  margin-left:-15%
+}
+}
 .restform{
     display: flex;
 }

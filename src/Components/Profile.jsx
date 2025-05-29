@@ -196,7 +196,7 @@ const onSubmitUpdateProfile = (e) => {
                             <label>old password</label>
                             <p style={{display:'flex'}}>
                             <input style={{minWidth:"90%"}} type={oldshowPassword?"text":"Password"} name="oldPassword" value={ResetPasswordDetails.oldPassword} onChange={ResetPasswordDetailsChange} />
-                            <span onClick={()=>setOldshowPassword(!oldshowPassword)} style={{cursor:'pointer',marginTop:"3%",marginLeft:'-11%'}} >{oldshowPassword ? '🙈' : '👁️'}</span>
+                            <span onClick={()=>setOldshowPassword(!oldshowPassword)} className="eyeHint" >{oldshowPassword ? '🙈' : '👁️'}</span>
                             </p>
                             <div style={{ color: "red" }}>{ResetPasswordErrors.oldPassword}</div>
                         </div>
@@ -205,7 +205,7 @@ const onSubmitUpdateProfile = (e) => {
                             <label>new password</label>
                             <p style={{display:'flex'}}>
                             <input style={{minWidth:"90%"}} type={showPassword?"text":"Password"} name="newPassword" value={ResetPasswordDetails.newPassword} onChange={ResetPasswordDetailsChange} />
-                            <span onClick={()=>setShowPassword(!showPassword)} style={{cursor:'pointer',marginTop:"3%",marginLeft:'-11%'}} >{showPassword ? '🙈' : '👁️'}</span>
+                            <span onClick={()=>setShowPassword(!showPassword)} className="eyeHint" >{showPassword ? '🙈' : '👁️'}</span>
                             </p>
                             <div style={{ color: "red" }}>{ResetPasswordErrors.newPassword}</div>
                         </div>

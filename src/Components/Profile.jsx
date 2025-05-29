@@ -15,13 +15,16 @@ function Profile() {
     const [profileDetails, setProfileDetails] = useState({ firstName: "", lastName: "", email: "" })
     const [profileDetailsErrors, setProfileDetailsErrors] = useState({ firstName: "", lastName: "", email: "" })
     const [showPassword,setShowPassword]=useState(false)
+    const [Profile,setProfile]=useState({firstName:'',lastName:'',Email:''})
     const[oldshowPassword,setOldshowPassword]=useState(false)
     // const [invalidCredential,setInvalidCredential]=useState('')
 
 
     const { data: profileData, isLoading, error } = useQuery({
         queryKey: ['getUserProfile'],
-        queryFn: Api.getUserProfile,
+        queryFn: ()=>Api.getUserProfile().then((res)=>{
+            setProfile({firstName:res?.data?.data?.firstName,lastName:res?.data?.data?.lastName,Email:res?.data?.data?.email})
+        }),
     });
 
 
@@ -65,6 +68,12 @@ function Profile() {
     setResetPasswordErrors(errors);
     return errors;
 };
+
+const getUserDetail=()=>{
+    Api.getUserProfile().then((res)=>{
+        setProfile({firstName:res?.data?.data?.firstName,lastName:res?.data?.data?.lastName,Email:res?.data?.data?.email})
+    })
+}
 
 const validateProfileUpdateForm = () => {
     const errors = {};
@@ -113,10 +122,12 @@ const validateProfileUpdateForm = () => {
                     oldPassword: "",
                     newPassword: ""
                 });
+                setEditShow(false)
+                setShow(false)
                 setResetPasswordErrors({ oldPassword: "", newPassword: "" })
                 toast.info('Password is Changed', {
-                autoClose: 1500,
-                onClose: () => window.location.reload()
+                autoClose: 1000,
+                onClose: () =>getUserDetail()
             });
                 
             }
@@ -145,12 +156,14 @@ const validateProfileUpdateForm = () => {
                     lastName: "",
                     email:''
                 });
+                setEditShow(false)
+                setShow(false)
                 setProfileDetailsErrors({ firstName: "",
                     lastName: "",
                     email:'' })
                 toast.info('Profile Details are Updated', {
-                autoClose: 1500,
-                onClose: () => window.location.reload()
+                autoClose: 1000,
+                onClose: () => getUserDetail()
             });
             }
         },
@@ -196,7 +209,7 @@ const onSubmitUpdateProfile = (e) => {
                             <label>old password</label>
                             <p style={{display:'flex'}}>
                             <input style={{minWidth:"90%"}} type={oldshowPassword?"text":"Password"} name="oldPassword" value={ResetPasswordDetails.oldPassword} onChange={ResetPasswordDetailsChange} />
-                            <span onClick={()=>setOldshowPassword(!oldshowPassword)} className="eyeHint" >{oldshowPassword ? '🙈' : '👁️'}</span>
+                            <span onClick={()=>setOldshowPassword(!oldshowPassword)} className="eyeHinter" >{oldshowPassword ? '🙈' : '👁️'}</span>
                             </p>
                             <div style={{ color: "red" }}>{ResetPasswordErrors.oldPassword}</div>
                         </div>
@@ -205,7 +218,7 @@ const onSubmitUpdateProfile = (e) => {
                             <label>new password</label>
                             <p style={{display:'flex'}}>
                             <input style={{minWidth:"90%"}} type={showPassword?"text":"Password"} name="newPassword" value={ResetPasswordDetails.newPassword} onChange={ResetPasswordDetailsChange} />
-                            <span onClick={()=>setShowPassword(!showPassword)} className="eyeHint" >{showPassword ? '🙈' : '👁️'}</span>
+                            <span onClick={()=>setShowPassword(!showPassword)} className="eyeHinter" >{showPassword ? '🙈' : '👁️'}</span>
                             </p>
                             <div style={{ color: "red" }}>{ResetPasswordErrors.newPassword}</div>
                         </div>
@@ -233,7 +246,7 @@ const onSubmitUpdateProfile = (e) => {
                         </div>
                         <div className="restform">
                             <label>Last Name</label>
-                            <input type="Password" name="lastName" value={profileDetails.lastName} onChange={UpdateProfileDetailsChange} />
+                            <input type="text" name="lastName" value={profileDetails.lastName} onChange={UpdateProfileDetailsChange} />
                             <div style={{ color: "red" }}>{profileDetailsErrors.lastName}</div>
                         </div>
                         <div className="restform">
@@ -253,23 +266,23 @@ const onSubmitUpdateProfile = (e) => {
             />
             {/* {console.log(data,":profileData")
             } */}
-            <section id="form">
+            <section id="form" className="profileForm">
                 <div id="ProfileDiv">
                     <img src={ProfileImg} alt="Profile" id="ProfileImage" />
-                    <h3>{profileData?.data?.data?.firstName} {profileData?.data?.data?.lastName}</h3>
+                    <h3>{Profile?.firstName} {Profile?.lastName}</h3>
                 </div>
 
                 <div className="Profileform">
                     <h3>First Name</h3>
-                    <p>{profileData?.data?.data?.firstName}</p>
+                    <p>{Profile?.firstName}</p>
                 </div>
                 <div className="Profileform">
                     <h3>Last Name</h3>
-                    <p>{profileData?.data?.data?.lastName}</p>
+                    <p>{Profile?.lastName}</p>
                 </div>
                 <div className="Profileform">
                     <h3>E-mail</h3>
-                    <p>{profileData?.data?.data?.email}</p>
+                    <p>{Profile?.Email}</p>
                 </div>
                 <div id="EditProfile">
                     <p id="changePass" onClick={() => { setResetPasswordDetails({ oldPassword: "", newPassword: "" }), setResetPasswordErrors({ oldPassword: "", newPassword: "" }), setShow(!show) }}><Link className="LinktoCreate">Reset Password</Link></p>

@@ -31,6 +31,7 @@ tbody td{
     margin: 5vh;
      border: 1px solid rgb(37, 37, 37);
      text-align: center;
+     cursor: pointer;
 }
 table{
     max-width:10px;
@@ -56,9 +57,7 @@ display: flex;
     border-radius: 1vh;
     backdrop-filter:unset;
     font-weight: 600;
-    cursor: pointer;
-    
-    
+    cursor: pointer; 
 }
 #clearAll{
     margin-top: 4vh;
@@ -79,6 +78,7 @@ display: flex;
 .detaillogo{
     height: 3vh;
     width: 3vh;
+    cursor: pointer; 
 }
 #addFilter img {
     height: 3vh;

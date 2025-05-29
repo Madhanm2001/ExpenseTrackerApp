@@ -147,7 +147,7 @@ function Transactions() {
 
         Api.transactionList(data).then((res) => {
             if (res.data.data.totalAmount != 0) {
-setShowFilter(false)
+                setShowFilter(false)
                 setTransactionListResponse(res?.data?.data?.transactionData)
 
 
@@ -182,9 +182,9 @@ setShowFilter(false)
         if (Object.keys(errors).length === 0) {
             if (isEdit) {
                 EditTransactionMutate({
-  id: transactionDetails.id,
-  data: CreateTransactionDate
-});
+                    id: transactionDetails.id,
+                    data: CreateTransactionDate
+                });
                 console.log(CreateTransactionDate, JSON.parse(JSON.stringify(transactionDetails.id)), 'CreateTransactionDate');
             }
             else {
@@ -211,10 +211,14 @@ setShowFilter(false)
                 setTransactionDetails({
                     amount: "", type: "", category: "", date: "", description: ""
                 });
+                setShow(false)
                 setTransactionDetailsErrors({ amount: "", type: "", category: "", date: "", description: "" })
                 toast.info('Transaction is Created', {
-                    autoClose: 1500,
-                    onClose: () => window.location.reload()
+                    autoClose: 1000,
+                    onClose: () => {
+                        onClearAll()
+                    }
+
                 });
             }
             else {
@@ -241,10 +245,11 @@ setShowFilter(false)
                 setTransactionDetails({
                     amount: "", type: "", category: "", date: "", description: ""
                 });
+                setShow(false)
                 setTransactionDetailsErrors({ amount: "", type: "", category: "", date: "", description: "" })
                 toast.info('Transaction is Updated', {
-                    autoClose: 1500,
-                    onClose: () => window.location.reload()
+                    autoClose: 1000,
+                    onClose: () => onClearAll()
                 });
             }
             else {
@@ -311,9 +316,12 @@ setShowFilter(false)
 
         setMonthId(id);
         setDateList('')
-        DateArr=''
+        DateArr = ''
         setDateDetails('')
+        DetailArr=''
         setDateListToogle(willToggleOpen);
+
+        console.log(id, "monthid");
 
         if (!willToggleOpen && isSameMonthClicked) {
             setDateList('');
@@ -337,33 +345,14 @@ setShowFilter(false)
         });
     };
 
-    const onDetailEditClick = (id, data, date) => {
-        console.log(id, data)
-        setTransactionDetails({ amount: data.expense || data.income, type: data.expense ? 'expense' : 'income', description: data.Description, category: data.category, date: date, id: data.id })
-        setShow(true)
-        setIsEdit(true)
-    }
-
-    const onDetailDeleteClick = (id) => {
-        Api.transactionDetailsDelete(id).then((res)=>{
-           if(res) {
-            window.location.reload()
-           }
-        })
-        .catch((err)=>{
-
-            console.log("error happens");
-            
-
-        })
-    }
-
     const onClickDate = (date, id) => {
-        const isSameDateClicked = id === DateId;
+        const isSameDateClicked = date === DateId;
         const willToggleOpen = !DateDetailsToogle;
-        setDateDetails('')
         setDateId(id);
+        setDateDetails('')
+        DetailArr = ''
         setDateDetailsToogle(willToggleOpen);
+        console.log(id, "dateid");
 
         if (!willToggleOpen && isSameDateClicked) {
             setDateDetails('');
@@ -382,8 +371,29 @@ setShowFilter(false)
         });
     };
 
-    const onClearAll=()=>{
-         DateArr = []
+    const onDetailEditClick = (id, data, date) => {
+        console.log(id, data)
+        setTransactionDetails({ amount: data.expense || data.income, type: data.expense ? 'expense' : 'income', description: data.Description, category: data.category, date: date, id: data.id })
+        setShow(true)
+        setIsEdit(true)
+    }
+
+    const onDetailDeleteClick = (id) => {
+        Api.transactionDetailsDelete(id).then((res) => {
+            if (res) {
+                onClearAll()
+            }
+        })
+            .catch((err) => {
+
+                console.log("error happens");
+
+
+            })
+    }
+
+    const onClearAll = () => {
+        DateArr = []
         DetailArr = []
         TransactionDataArray = []
         setDateList('')
@@ -392,9 +402,6 @@ setShowFilter(false)
         setTransactionListDetails(false)
         setMonthId(null)
         setDateId(null)
-
-
-        console.log(data, ":setTransactionListDetails");
 
 
         Api.transactionList({ startDate: '', endDate: '', year: new Date().getFullYear(), month: '', type: 'all', category: 'all' }).then((res) => {

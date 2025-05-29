@@ -44,7 +44,7 @@ function Login() {
             });
 
             toast.success('Login Successfully', {
-                autoClose: 1500,
+                autoClose: 1000,
                 onClose: () => navigate('/'), // Wait for toast to close before redirect
             });
         } else {
@@ -69,8 +69,8 @@ const {
     onSuccess: (res) => {
         console.log('SignUp Success', res);
         toast.success('Create Account Successfully', {
-            autoClose: 1500,
-            onClose: () => window.location.reload(), // wait for toast before reload
+            autoClose: 1000,
+            onClose: () => window.location.reload(),
         });
         setSignUpDetails({
             firstName: "",

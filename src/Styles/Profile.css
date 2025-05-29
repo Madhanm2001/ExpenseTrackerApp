@@ -10,6 +10,9 @@ body{
     background-color: aliceblue;
 
 }
+.restform{
+    display: flex;
+}
 #ProfileDiv h3{
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 

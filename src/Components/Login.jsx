@@ -21,6 +21,7 @@ function Login() {
     const [signUpDetails, setSignUpDetails] = useState({ firstName: "", lastName: "", email: "", password: "" });
     const [signUpDetailsErrors, setSignUpDetailsErrors] = useState({});
     const [invalidCredential, setInvalidCredential] = useState('')
+    const[showPassword,setShowPassword]=useState()
   const {
     mutate: signInMutate,
     isLoading: isSignInLoading,
@@ -182,7 +183,11 @@ const {
                         </div>
                         <div className="form">
                             <label>Password</label>
-                            <input type="Password" className="SigninForm" name="password" value={signUpDetails.password} onChange={onLoginInputChange} />
+                            <div style={{display:'flex'}}>
+                            <input type={showPassword?"text":"Password"} className="SigninForm" name="password" value={signUpDetails.password} onChange={onLoginInputChange} />
+                            <span className="eyeHint" onClick={()=>setShowPassword(!showPassword)}>{showPassword ? '🙈' : '👁️'}</span>
+
+                            </div>
                             <div style={{ color: "red" }}>{signUpDetailsErrors.password}</div>
                         </div>
                         <button onClick={onAuthenticatedSignIn}>Submit</button>
@@ -194,7 +199,7 @@ const {
                                     email: "",
                                     password: ""
                                 })
-                            }}><Link className="LinktoCreate">Create Account</Link></p>
+                            }}><Link className="LinktoCreate" onClick={()=>setShowPassword(false)}>Create Account</Link></p>
                         </div>
                         <div style={{ color: "red" }}>{invalidCredential}</div>
                     </form>
@@ -220,7 +225,10 @@ const {
                         </div>
                         <div className="form">
                             <label>Password</label>
-                            <input type="password" className="SignupForm" name="password" value={signUpDetails.password} onChange={onLoginInputChange} />
+                            <div style={{display:'flex'}}>
+                            <input type={showPassword?"text":"Password"} className="SignupForm" name="password" value={signUpDetails.password} onChange={onLoginInputChange} />
+                            <span className="eyeHint" onClick={()=>setShowPassword(!showPassword)}>{showPassword ? '🙈' : '👁️'}</span>
+                            </div>
                             <div style={{ color: "red" }}>{signUpDetailsErrors.password}</div>
                         </div>
                         <button onClick={onAuthenticatedSignUp}>Submit</button>
@@ -233,7 +241,7 @@ const {
                                     password: ""
                                 })
                             }}><Link className="LinktoCreate" onClick={()=>{setSignUpDetails({email: "",
-                                    password: ""},invalidCredential(''),setSignUpDetailsErrors(''))}}>Sign-In</Link></p>
+                                    password: ""},invalidCredential(''),setSignUpDetailsErrors(''),setShowPassword(false))}}>Sign-In</Link></p>
                         </div>
                     </form>
                 </div>

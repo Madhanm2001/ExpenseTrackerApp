@@ -14,6 +14,8 @@ function Profile() {
     const [ResetPasswordErrors, setResetPasswordErrors] = useState({ oldPassword: "", newPassword: "" })
     const [profileDetails, setProfileDetails] = useState({ firstName: "", lastName: "", email: "" })
     const [profileDetailsErrors, setProfileDetailsErrors] = useState({ firstName: "", lastName: "", email: "" })
+    const [showPassword,setShowPassword]=useState(false)
+    const[oldshowPassword,setOldshowPassword]=useState(false)
     // const [invalidCredential,setInvalidCredential]=useState('')
 
 
@@ -192,12 +194,19 @@ const onSubmitUpdateProfile = (e) => {
                     <>
                         <div className="restform">
                             <label>old password</label>
-                            <input type="password" name="oldPassword" value={ResetPasswordDetails.oldPassword} onChange={ResetPasswordDetailsChange} />
+                            <p style={{display:'flex'}}>
+                            <input style={{minWidth:"90%"}} type={oldshowPassword?"text":"Password"} name="oldPassword" value={ResetPasswordDetails.oldPassword} onChange={ResetPasswordDetailsChange} />
+                            <span onClick={()=>setOldshowPassword(!oldshowPassword)} style={{cursor:'pointer',marginTop:"3%",marginLeft:'-11%'}} >{oldshowPassword ? '🙈' : '👁️'}</span>
+                            </p>
                             <div style={{ color: "red" }}>{ResetPasswordErrors.oldPassword}</div>
                         </div>
                         <div className="restform">
+                            
                             <label>new password</label>
-                            <input type="Password" name="newPassword" value={ResetPasswordDetails.newPassword} onChange={ResetPasswordDetailsChange} />
+                            <p style={{display:'flex'}}>
+                            <input style={{minWidth:"90%"}} type={showPassword?"text":"Password"} name="newPassword" value={ResetPasswordDetails.newPassword} onChange={ResetPasswordDetailsChange} />
+                            <span onClick={()=>setShowPassword(!showPassword)} style={{cursor:'pointer',marginTop:"3%",marginLeft:'-11%'}} >{showPassword ? '🙈' : '👁️'}</span>
+                            </p>
                             <div style={{ color: "red" }}>{ResetPasswordErrors.newPassword}</div>
                         </div>
                     </>

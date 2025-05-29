@@ -45,7 +45,21 @@ nav{
     color: #892c9b;
     cursor: pointer;
     font-size: .8em;
-    
+}
+
+.eyeHint{
+  cursor:pointer;
+  margin-top:6%;
+  margin-left:-10%
+}
+
+@media screen and (max-width:400px) {
+  .eyeHint{
+  cursor:pointer;
+  margin-top:8%;
+  margin-left:-10%
+}
+  
 }
 .LinktoCreate{
     text-decoration: none;

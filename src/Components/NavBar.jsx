@@ -136,6 +136,7 @@ function NavBar() {
               <Link
                 to={'/profile'}
                 id="ProfileData"
+                onClick={()=>{setIsProfileOpen(false)}}
               >
                 Profile
               </Link>

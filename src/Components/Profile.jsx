@@ -27,7 +27,9 @@ function Profile() {
         }),
     });
 
-
+useEffect(()=>{
+    // localStorage.setItem('onActiveTab',-1)
+},[])
 
 
     console.log(profileData, "dataprofile");

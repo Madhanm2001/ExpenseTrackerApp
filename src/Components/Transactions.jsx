@@ -35,6 +35,7 @@ function Transactions() {
 
     useEffect(() => {
         setTransactionListResponse(TransactionList?.data?.data?.transactionData)
+        localStorage.setItem('onActiveTab',1)
         console.log('TransactionList123', transactionListResponse);
     }, [TransactionList])
 
@@ -287,6 +288,7 @@ function Transactions() {
         setTransactionDetailsErrors(errors);
         return errors;
     };
+console.log(DateListToogle,"DateDetailsToogle");
 
     const onChangeTransactionDetails = (e) => {
         const { name, value } = e.target;
@@ -311,17 +313,18 @@ function Transactions() {
 
 
     const onClickMonth = (data, id) => {
-        const isSameMonthClicked = id === MonthId;
-        const willToggleOpen = !DateListToogle;
+        const month=MonthName[data]
+        const isSameMonthClicked = month === MonthId;
+        const willToggleOpen = !isSameMonthClicked&&DateListToogle?true:!DateListToogle;
 
-        setMonthId(id);
+        setMonthId(month);
         setDateList('')
         DateArr = ''
         setDateDetails('')
         DetailArr=''
         setDateListToogle(willToggleOpen);
 
-        console.log(id, "monthid");
+        console.log(month , MonthId, "monthid");
 
         if (!willToggleOpen && isSameMonthClicked) {
             setDateList('');
@@ -347,12 +350,12 @@ function Transactions() {
 
     const onClickDate = (date, id) => {
         const isSameDateClicked = date === DateId;
-        const willToggleOpen = !DateDetailsToogle;
-        setDateId(id);
+        const willToggleOpen = !isSameDateClicked&&DateDetailsToogle?true:!DateDetailsToogle;
+        setDateId(date);
         setDateDetails('')
         DetailArr = ''
         setDateDetailsToogle(willToggleOpen);
-        console.log(id, "dateid");
+        console.log(DateDetails, "dateid");
 
         if (!willToggleOpen && isSameDateClicked) {
             setDateDetails('');
@@ -406,10 +409,7 @@ function Transactions() {
 
         Api.transactionList({ startDate: '', endDate: '', year: new Date().getFullYear(), month: '', type: 'all', category: 'all' }).then((res) => {
             if (res.data.data.totalAmount != 0) {
-
                 setTransactionListResponse(res?.data?.data?.transactionData)
-
-
             }
             else {
                 TransactionDataArray = []
@@ -534,7 +534,7 @@ function Transactions() {
                                     <td>{detail?.total}</td>
                                 </tr>
 
-                                {DateId == id && DetailArr && DetailArr.length > 0 ?
+                                {DateId == detail.date && DetailArr && DetailArr.length > 0 ?
                                     <table>
                                         <thead>
                                             <tr>
@@ -573,7 +573,7 @@ function Transactions() {
                                     <td>{detail.total}</td>
                                 </tr>
 
-                                {MonthId == id && DateArr && DateArr.length > 0 ?
+                                {MonthId == MonthName[detail.date] && DateArr && DateArr.length > 0 ?
                                     <table>
                                         <thead>
                                             <tr>
@@ -592,7 +592,7 @@ function Transactions() {
                                                         <td>{detail?.expense || 0}</td>
                                                         <td>{detail.total}</td>
                                                     </tr>
-                                                        {DateId == id && DetailArr && DetailArr.length > 0 ?
+                                                        {DateId == detail.date && DetailArr && DetailArr.length > 0 ?
                                                             <table>
                                                                 <thead className='DetailList'>
                                                                     <tr>

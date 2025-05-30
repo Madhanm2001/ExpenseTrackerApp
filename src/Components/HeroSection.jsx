@@ -52,6 +52,7 @@ const calendarData={
       console.log("inn")
       navigate('/sign-in')
     }
+    localStorage.setItem('onActiveTab',0)
   }, [])
   useEffect(()=>{
     if(TransactionOverview?.data){

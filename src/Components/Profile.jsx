@@ -287,7 +287,7 @@ const onSubmitUpdateProfile = (e) => {
                     <p>{Profile?.Email}</p>
                 </div>
                 <div id="EditProfile">
-                    <p id="changePass" onClick={() => { setResetPasswordDetails({ oldPassword: "", newPassword: "" }), setResetPasswordErrors({ oldPassword: "", newPassword: "" }), setShow(!show) }}><Link className="LinktoCreate">Reset Password</Link></p>
+                    <p id="changePass" onClick={() => { setResetPasswordDetails({ oldPassword: "", newPassword: "" }), setResetPasswordErrors({ oldPassword: "", newPassword: "" }), setShow(!show) }}><Link className="LinktoCreate" onClick={()=>setOldshowPassword(false)}>Reset Password</Link></p>
                     <p id="ChangeProfile" onClick={() => { setEditShow(!editShow),setProfileDetails({firstName: "",
                     lastName: "",
                     email:''}), setProfileDetailsErrors({firstName: "",

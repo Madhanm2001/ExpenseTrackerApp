@@ -1,6 +1,6 @@
 section{
     border: none;
+}
+body{
     overflow-x: hidden;
-    scrollbar-width: none;
-    width: 100%;
 }

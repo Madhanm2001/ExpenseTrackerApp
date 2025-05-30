@@ -177,6 +177,13 @@ function Transactions() {
             type: transactionDetails.type,
             category: transactionDetails.category
         }
+        const EditTransactionDate = {
+            amount: Number(transactionDetails.amount),
+            date: `${Date[1]}/${Date[2]}/${Date[0]}`,
+            description: transactionDetails.description,
+            type: transactionDetails.type,
+            category: transactionDetails.category
+        }
 
 
 
@@ -185,7 +192,7 @@ function Transactions() {
             if (isEdit) {
                 EditTransactionMutate({
                     id: transactionDetails.id,
-                    data: CreateTransactionDate
+                    data: EditTransactionDate
                 });
                 console.log(CreateTransactionDate, JSON.parse(JSON.stringify(transactionDetails.id)), 'CreateTransactionDate');
             }

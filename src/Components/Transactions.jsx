@@ -24,6 +24,7 @@ function Transactions() {
     const [DateListToogle, setDateListToogle] = useState(false)
     const [DateDetailsToogle, setDateDetailsToogle] = useState(false)
     const [isEdit, setIsEdit] = useState(false)
+    const[sameMonth,setShowMonth]=useState(false)
     const dateNew = new Date()
 
 
@@ -288,7 +289,7 @@ function Transactions() {
         setTransactionDetailsErrors(errors);
         return errors;
     };
-console.log(DateListToogle,"DateDetailsToogle");
+console.log(DateListToogle,DateDetailsToogle,"DateDetailsToogle");
 
     const onChangeTransactionDetails = (e) => {
         const { name, value } = e.target;
@@ -312,11 +313,11 @@ console.log(DateListToogle,"DateDetailsToogle");
 
 
 
-    const onClickMonth = (data, id) => {
+    const onClickMonth = (data) => {
         const month=MonthName[data]
         const isSameMonthClicked = month === MonthId;
         const willToggleOpen = !isSameMonthClicked&&DateListToogle?true:!DateListToogle;
-
+setShowMonth(isSameMonthClicked)
         setMonthId(month);
         setDateList('')
         DateArr = ''
@@ -348,9 +349,9 @@ console.log(DateListToogle,"DateDetailsToogle");
         });
     };
 
-    const onClickDate = (date, id) => {
+    const onClickDate = (date) => {
         const isSameDateClicked = date === DateId;
-        const willToggleOpen = !isSameDateClicked&&DateDetailsToogle?true:!DateDetailsToogle;
+        const willToggleOpen = (!isSameDateClicked&&DateDetailsToogle)||(!sameMonth&&isSameDateClicked&&!DateDetails)?true:!DateDetailsToogle;
         setDateId(date);
         setDateDetails('')
         DetailArr = ''
@@ -512,6 +513,7 @@ console.log(DateListToogle,"DateDetailsToogle");
 
                 <div id="clearAll" onClick={onClearAll}>Clear All</div>
             </section>
+            <div id="TableWrap">
             {showFilter && <FilterTransaction getTransactionFilterValues={getTransactionFilterValues} />}
             {TransactionDataArray && TransactionDataArray.length > 0 ? <table>
                 <thead>
@@ -556,8 +558,8 @@ console.log(DateListToogle,"DateDetailsToogle");
                                                     <td>{data?.income || 0}</td>
                                                     <td>{data?.expense || 0}</td>
                                                     <td>{data.Description}</td>
-                                                    <td onClick={() => { onDetailEditClick(data?.id, data, detail.date.split('T')[0]) }}><img className='detaillogo' src={EditTransaction} alt="" /></td>
-                                                    <td onClick={() => { onDetailDeleteClick(data?.id) }}><img className='detaillogo' src={DeleteTransaction} alt="" /></td>
+                                                    <td style={{background:"white",border:"none"}} onClick={() => { onDetailEditClick(data?.id, data, detail.date.split('T')[0]) }}><img className='detaillogo' src={EditTransaction} alt="" /></td>
+                                                    <td style={{background:"white",border:"none"}} onClick={() => { onDetailDeleteClick(data?.id) }}><img className='detaillogo' src={DeleteTransaction} alt="" /></td>
                                                 </tr>
                                             )) : ""}
                                         </tbody>
@@ -614,8 +616,8 @@ console.log(DateListToogle,"DateDetailsToogle");
                                                                             <td>{data?.income || 0}</td>
                                                                             <td>{data?.expense || 0}</td>
                                                                             <td>{data.Description}</td>
-                                                                            <td onClick={() => { onDetailEditClick(data.id, data, detail.date.split('T')[0]) }}><img className='detaillogo' src={EditTransaction} alt="" /></td>
-                                                                            <td onClick={() => { onDetailDeleteClick(data.id) }}><img className='detaillogo' src={DeleteTransaction} alt="" /></td>
+                                                                            <td style={{background:"white",border:"none"}} onClick={() => { onDetailEditClick(data.id, data, detail.date.split('T')[0]) }}><img className='detaillogo' src={EditTransaction} alt="" /></td>
+                                                                            <td style={{background:"white",border:"none"}} onClick={() => { onDetailDeleteClick(data.id) }}><img className='detaillogo' src={DeleteTransaction} alt="" /></td>
 
                                                                         </tr>
                                                                     )) : ""}
@@ -667,7 +669,7 @@ console.log(DateListToogle,"DateDetailsToogle");
                     </tbody>
                 </table>:''} */}
 
-
+</div>
 
 
         </div>

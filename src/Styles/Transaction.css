@@ -1,6 +1,6 @@
 #addFilter {
     display: flex;
-    gap: 5vh;
+    gap: 10vh;
 }
 
 #addFilter img {
@@ -10,56 +10,86 @@
     margin: 1vh;
 
 }
+ #TableWrap{
+    display: flex;
+    justify-content: center;
+        
+    }
 
-thead th{
-    margin: 5vh;
-    border: 3px solid rgb(37, 37, 37);
+thead th {
+    border:none;
+    padding: 1vh;
+    border-radius: 1vh;
+    background-color: rgb(8, 8, 190);
+    color: antiquewhite;
 }
 
-.detaillogo{
-    height: 20px;
-    width: 20px;
+.detaillogo {
+    height: 15px;
+    width: 15px;
     padding: 10px;
+    box-shadow: 0px 0px 10px 5px grey;
+    border-radius: 2vh;
 }
+
 /* .DetailList td{
     border: none;
 }
 .DetailList th{
     border: none;
 } */
-tbody td{
-    margin: 5vh;
-     border: 1px solid rgb(37, 37, 37);
-     text-align: center;
-     cursor: pointer;
+tbody td {
+    margin: 10vh;
+    border: 1px solid grey;
+    padding: 1vh;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 1vh;
+    overflow-x: auto;
+    max-width: 65px;
+    background-color: rgb(172, 255, 227);
+    font-family: 'Times New Roman', Times, serif;
 }
-table{
-    max-width:10px;
-    margin: 2vh 0;
+
+table {
+    min-width:100px ;
+    max-width: 100px;
+    position: relative;
+    font-size: medium;
+    margin-top: 3vh;
 }
-textarea{
+
+textarea {
     height: 20vh;
 }
-select{
+
+select {
     padding: 10px;
 }
-.buttonName{
+
+.buttonName {
     margin-top: 2vh;
 }
-#TopSection{
-    display:flex;justify-content:space-between;border:none;gap:5vh
-}
-#addFilter button {
-display: flex;
-    padding: 1vh;
-    box-shadow: 0px 0px 10px grey;
+
+#TopSection {
+    display: flex;
+    justify-content: space-between;
     border: none;
-    border-radius: 1vh;
-    backdrop-filter:unset;
-    font-weight: 600;
-    cursor: pointer; 
+    gap: 5vh
 }
-#clearAll{
+
+#addFilter button {
+    display: flex;
+    padding: 1vh;
+    border: none;
+    box-shadow: 0px 0px 10px 5px grey;
+    border-radius: 7vh;
+    font-weight: 600;
+    cursor: pointer;
+    background-color: white;
+}
+
+#clearAll {
     margin-top: 4vh;
     font-weight: 600;
     font-size: medium;
@@ -69,51 +99,66 @@ display: flex;
     border-bottom: 2px solid blue;
 }
 
+@media screen and (max-width:912px) {
+table{
+    font-size: smaller;
+}    
+}
+
+@media screen and (max-width:678px) {
+    table {
+        position: relative;
+        left: 0%;
+        width: 100%;
+        font-size: small;
+        margin:2vh;
+        font-size: small;
+        display:block
+    }
+     #TableWrap{
+    display: flex;
+    justify-content:flex-start;
+}
+}
 
 @media screen and (max-width:480px) {
-    #addFilter button{
+    #addFilter button {
         display: block;
-        margin-top: 2vh;
+        margin-top: 1vh;
     }
-    #clearAll{
-    margin-top: 6vh;
-    font-size: smaller;
+     #TableWrap{
+    display: flex;
+    justify-content:flex-start;
 }
-.detaillogo{
-    height: 3vh;
-    width: 3vh;
-    cursor: pointer; 
-}
-#addFilter img {
-    height: 3vh;
-    width: 3vh;
-    margin: 1vh;
-}
-table{
-    font-size: xx-small;
-    margin: 2vh 0;
-    display: block;
-}
-    
-}
-/* @media screen and (max-width:600px) {
-    #addFilter button{
+
+    #clearAll {
+        font-size: smaller;
+    }
+
+    .detaillogo {
+        height: 2vh;
+        width: 2vh;
+        cursor: pointer;
+    }
+
+    #addFilter img {
+        height: 4vh;
+        width: 4vh;
+        margin: 1vh;
+        background-color:white;
+    }
+
+    table {
+        font-size: smaller;
+        margin: 1vh 0;
+        width: 100%;
         display: block;
-        margin-top: 2vh;
+        position: relative;
+        left: 0%;
     }
-    #clearAll{
-    margin-top: 6vh;
-}
-table{
-    margin: 0 15%;
-    font-size: smaller;
-}
-thead th{
-   padding: 3vh;
+   
 
 }
-tbody td{
-     padding: 3vh;
-}
-    
-} */
+
+
+

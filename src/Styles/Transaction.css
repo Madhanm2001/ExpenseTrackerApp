@@ -51,7 +51,7 @@ tbody td {
     border-radius: .5vh;
     overflow-x: auto;
     max-width: 65px;
-    background-color: rgb(172, 255, 227);
+    background-color: rgb(255, 255, 255);
     font-family: 'Times New Roman', Times, serif;
 }
 
@@ -101,11 +101,9 @@ select {
     cursor: pointer;
     padding: 2px;
     color:#4F4F4F;
-    border-bottom: 2px solid #4F4F4F;
 }
 #clearAll:hover {
 color: rgb(0, 0, 0);
-border-bottom: 2px solid #000000;
 font-weight: bolder;
 }
 

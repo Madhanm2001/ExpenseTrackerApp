@@ -1,3 +1,6 @@
 section{
     border: none;
+    overflow-x: hidden;
+    scrollbar-width: none;
+    width: 100%;
 }

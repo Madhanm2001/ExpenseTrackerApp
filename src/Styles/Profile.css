@@ -1,13 +1,15 @@
 body {
     width: 100%;
     margin-top: 7em;
+    overflow-x: hidden;
+    width: 100%;
 }
 
 #ProfileDiv {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: aliceblue;
+    background-color: rgb(255, 255, 255);
 
 }
 

@@ -1,7 +1,7 @@
 body {
-    background-color: aliceblue;
+    background-color: rgb(255, 255, 255);
     width: 100%;
-
+overflow-x: hidden;
 }
 
 #HeroSection h2 {

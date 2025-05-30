@@ -13,13 +13,13 @@
  #TableWrap{
     display: flex;
     justify-content: center;
-        
+    margin-top: 5vh;
     }
 
 thead th {
     border:none;
     padding: 1vh;
-    border-radius: 1vh;
+    border-radius: .5vh;
     background-color: rgb(8, 8, 190);
     color: antiquewhite;
 }
@@ -40,11 +40,11 @@ thead th {
 } */
 tbody td {
     margin: 10vh;
-    border: 1px solid grey;
+    border: 2px solid grey;
     padding: 1vh;
     text-align: center;
     cursor: pointer;
-    border-radius: 1vh;
+    border-radius: .5vh;
     overflow-x: auto;
     max-width: 65px;
     background-color: rgb(172, 255, 227);
@@ -58,6 +58,7 @@ table {
     font-size: medium;
     margin-top: 3vh;
 }
+
 
 textarea {
     height: 20vh;
@@ -95,8 +96,13 @@ select {
     font-size: medium;
     cursor: pointer;
     padding: 2px;
-    color: blue;
-    border-bottom: 2px solid blue;
+    color:#4F4F4F;
+    border-bottom: 2px solid #4F4F4F;
+}
+#clearAll:hover {
+color: rgb(0, 0, 0);
+border-bottom: 2px solid #000000;
+font-weight: bolder;
 }
 
 @media screen and (max-width:912px) {

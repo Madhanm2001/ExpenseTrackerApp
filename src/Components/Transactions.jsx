@@ -482,10 +482,10 @@ setShowMonth(isSameMonthClicked)
             />
             <section id='TopSection'>
                 <div id="addFilter">
-                    <button onClick={handleAddClick}>
+                    <button onClick={handleAddClick} title="Add Transaction">
                         <img src={AddTransaction} alt="Add Transaction" />
                     </button>
-                    <button onClick={() => setShowFilter(!showFilter)}>
+                    <button onClick={() => setShowFilter(!showFilter)} title="Filter Transaction">
                         <img src={filterTransaction} alt="Filter Transaction" />
                     </button>
                     {/* <button>
@@ -511,10 +511,11 @@ setShowMonth(isSameMonthClicked)
                     )) : ""} */}
                 </div>
 
-                <div id="clearAll" onClick={onClearAll}>Clear All</div>
+                <div id="clearAll" title="clear All the Filter and Data" onClick={onClearAll}>Clear All</div>
             </section>
-            <div id="TableWrap">
+            
             {showFilter && <FilterTransaction getTransactionFilterValues={getTransactionFilterValues} />}
+            <div id="TableWrap">
             {TransactionDataArray && TransactionDataArray.length > 0 ? <table>
                 <thead>
                     <tr>
@@ -558,8 +559,8 @@ setShowMonth(isSameMonthClicked)
                                                     <td>{data?.income || 0}</td>
                                                     <td>{data?.expense || 0}</td>
                                                     <td>{data.Description}</td>
-                                                    <td style={{background:"white",border:"none"}} onClick={() => { onDetailEditClick(data?.id, data, detail.date.split('T')[0]) }}><img className='detaillogo' src={EditTransaction} alt="" /></td>
-                                                    <td style={{background:"white",border:"none"}} onClick={() => { onDetailDeleteClick(data?.id) }}><img className='detaillogo' src={DeleteTransaction} alt="" /></td>
+                                                    <td style={{background:"white",border:"none"}}  title="Edit Transaction" onClick={() => { onDetailEditClick(data?.id, data, detail.date.split('T')[0]) }}><img className='detaillogo' src={EditTransaction} alt="" /></td>
+                                                    <td style={{background:"white",border:"none"}} title="Delete Transaction" onClick={() => { onDetailDeleteClick(data?.id) }}><img className='detaillogo' src={DeleteTransaction} alt="" /></td>
                                                 </tr>
                                             )) : ""}
                                         </tbody>
@@ -616,8 +617,8 @@ setShowMonth(isSameMonthClicked)
                                                                             <td>{data?.income || 0}</td>
                                                                             <td>{data?.expense || 0}</td>
                                                                             <td>{data.Description}</td>
-                                                                            <td style={{background:"white",border:"none"}} onClick={() => { onDetailEditClick(data.id, data, detail.date.split('T')[0]) }}><img className='detaillogo' src={EditTransaction} alt="" /></td>
-                                                                            <td style={{background:"white",border:"none"}} onClick={() => { onDetailDeleteClick(data.id) }}><img className='detaillogo' src={DeleteTransaction} alt="" /></td>
+                                                                            <td style={{background:"white",border:"none"}} title="Edit Transaction" onClick={() => { onDetailEditClick(data.id, data, detail.date.split('T')[0]) }}><img className='detaillogo' src={EditTransaction} alt="" /></td>
+                                                                            <td style={{background:"white",border:"none"}} title="Delete Transaction" onClick={() => { onDetailDeleteClick(data.id) }}><img className='detaillogo' src={DeleteTransaction} alt="" /></td>
 
                                                                         </tr>
                                                                     )) : ""}

@@ -12,9 +12,34 @@ import PopUpModal from "../common/Modal";
 import { useNavigate } from "react-router-dom";
 import * as Api from '../Api/Apis'
 import { useQuery } from "@tanstack/react-query";
-import { toast,Slide } from "react-toastify";
+import { toast, Slide } from "react-toastify";
 import '../Styles/toastStyles.css'
-import 'react-toastify/dist/ReactToastify.css'; 
+import 'react-toastify/dist/ReactToastify.css';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  LineElement,
+  PointElement,
+  ArcElement,
+  Tooltip,
+  Legend,
+  Title
+} from "chart.js";
+import { Bar, Line, Doughnut } from "react-chartjs-2";
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  LineElement,
+  PointElement,
+  ArcElement,
+  Tooltip,
+  Legend,
+  Title
+);
 
 
 function HeroSection() {
@@ -33,18 +58,18 @@ function HeroSection() {
   // const handleClose = () => setShow(false);
   // const handleShow = () => setShow(true);
 
-const calendarData={
-  month:String(currentMonth+1),year:String(currentYear)
-}
+  const calendarData = {
+    month: String(currentMonth + 1), year: String(currentYear)
+  }
 
   const { data: TransactionOverview, isLoading, error } = useQuery({
-        queryKey: ['TransactionOverview'],
-        queryFn:()=> Api.transactionOverview(calendarData),
-    });
+    queryKey: ['TransactionOverview'],
+    queryFn: () => Api.transactionOverview(calendarData),
+  });
 
-    console.log(TransactionOverview,':gshdg');
-    
-    const [transactions, setTransactions] = useState({income:0, expense: 0, balance: 0});
+  console.log(TransactionOverview, ':gshdg');
+
+  const [transactions, setTransactions] = useState({ income: 0, expense: 0, balance: 0 });
 
   useEffect(() => {
     console.log("in")
@@ -52,50 +77,78 @@ const calendarData={
       console.log("inn")
       navigate('/sign-in')
     }
-    localStorage.setItem('onActiveTab',0)
+    localStorage.setItem('onActiveTab', 0)
   }, [])
-  useEffect(()=>{
-    if(TransactionOverview?.data){
-//     toast('Welcome Home', {
-//   position: "top-center",
-//   autoClose: 1000,
-//   hideProgressBar: true,
-//   closeOnClick: false,
-//   pauseOnHover: false,
-//   draggable: true,
-//   progress: undefined,
-//   theme: "light",
-//   transition: Slide,
-//   className: 'custom-toast',
-//   bodyClassName: 'custom-toast-body',
-// });
+  useEffect(() => {
+    if (TransactionOverview?.data) {
+      //     toast('Welcome Home', {
+      //   position: "top-center",
+      //   autoClose: 1000,
+      //   hideProgressBar: true,
+      //   closeOnClick: false,
+      //   pauseOnHover: false,
+      //   draggable: true,
+      //   progress: undefined,
+      //   theme: "light",
+      //   transition: Slide,
+      //   className: 'custom-toast',
+      //   bodyClassName: 'custom-toast-body',
+      // });
       setTransactions(TransactionOverview?.data?.data)
     }
-  },[TransactionOverview])
+  }, [TransactionOverview])
   for (let i = 2000; i <= currentYear; i++) {
     year.push(i);
   }
 
+  console.log(transactions, ':transactions');
 
-  const onCalendarValue = async(value) => {
-  SetCalendarValue(value);
 
-  const calendarData = {
-    month: value.getMonth() + 1,
-    year: value.getFullYear(),
+  const chartData = {
+    labels: ["Income", "Expense", "Balance"],
+    datasets: [
+      {
+        label: "Transaction Overview",
+        data: [transactions.income || 0, transactions.expense || 0, transactions.balance || 0],
+        backgroundColor: ["green", "red", "Blue"]
+      }
+    ]
   };
 
-  console.log('Parsed calendarData:', value);
+  const chartOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        display: false
+      },
+      title: {
+        display: true,
+        text: "Transaction Overview"
+      }
+    }
+  };
 
-  const resp = await Api.transactionOverview(calendarData);
-  if(resp.data){
-  setTransactions(resp?.data?.data)
-  }
-  else{
-    setTransactions({income:0, expense: 0, balance: 0})
-  }
 
-};
+
+  const onCalendarValue = async (value) => {
+    SetCalendarValue(value);
+
+    const calendarData = {
+      month: value.getMonth() + 1,
+      year: value.getFullYear(),
+    };
+
+    console.log('Parsed calendarData:', value);
+
+    const resp = await Api.transactionOverview(calendarData);
+    if (resp.data) {
+      setTransactions(resp?.data?.data)
+    }
+    else {
+      setTransactions({ income: 0, expense: 0, balance: 0 })
+    }
+
+  };
 
 
 
@@ -134,12 +187,22 @@ const calendarData={
               onChange={onCalendarValue}
               dateFormat="MM/YYYY"
               showMonthYearPicker
-             />
+            />
+
+            <div id="ChartOverview">
+              <Doughnut data={chartData} options={chartOptions} />
+            </div>
+            
           </div>
 
 
 
+
+
         </div>
+
+
+
         <PopUpModal
           show={show}
           closeButton={true}
@@ -215,7 +278,7 @@ const calendarData={
             <img src={BalanceLogo} alt="" />
             <h3>Current Balance</h3>
             <h3>${transactions?.balance || 0}</h3>
-            <p className="MoneyPercentage" style={{ backgroundColor: "navy", color: "white" }}>{ 0}%</p>
+            <p className="MoneyPercentage" style={{ backgroundColor: "navy", color: "white" }}>{0}%</p>
           </div>
           <div>
             <img src={IncomeLogo} alt="" />

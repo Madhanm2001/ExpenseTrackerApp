@@ -94,6 +94,10 @@ select {
     background-color: white;
 }
 
+#ReportChart{
+    width: 50%;
+}
+
 #clearAll {
     margin-top: 4vh;
     font-weight: 600;
@@ -111,6 +115,10 @@ font-weight: bolder;
 table{
     font-size: smaller;
 }    
+#ReportChart{
+    width: 75%;
+    margin-left:20%;
+}
 }
 
 @media screen and (max-width:678px) {
@@ -127,6 +135,10 @@ table{
     display: flex;
     justify-content:flex-start;
 }
+#ReportChart{
+    width: 85%;
+    margin-left:20%;
+}
 }
 
 @media screen and (max-width:480px) {
@@ -138,6 +150,11 @@ table{
     display: flex;
     justify-content:flex-start;
 }
+#ReportChart{
+    width: 100%;
+    margin-left:0%;
+}
+
 
     #clearAll {
         font-size: smaller;

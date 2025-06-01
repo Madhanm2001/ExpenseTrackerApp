@@ -15,10 +15,13 @@ overflow-x: hidden;
 
 #YearMonthFilter {
     display: flex;
-    justify-content: center;
-    gap: 1em;
-    margin-top: 2.5em;
+    justify-content: space-around;
+    gap: 10em;
+    margin:0 20%;
 
+}
+#ChartOverview{
+     width: 30%;
 }
 
 #YearMonthFilter select {
@@ -149,6 +152,10 @@ header h2 {
         width: 40%;
 
     }
+      #ChartOverview{
+    width: 50%;
+    margin-left: 5%;
+}
 
 }
 
@@ -160,6 +167,14 @@ header h2 {
         width: 70%;
 
     }
+    #YearMonthFilter {
+    display: block;
+    }
+      #ChartOverview{
+    width: 75%;
+    margin-left: 20%;
+    margin-top: 10%;
+}
 
 }
 @media screen and (max-width:400px) {
@@ -169,6 +184,10 @@ header h2 {
         width: 70%;
 
     }
+    #ChartOverview{
+    width: 100%;
+    margin-left: 10%;
+}
 
 }
 
@@ -216,6 +235,7 @@ header h2 {
     font-size: x-small;
 
 }
+
 
 #CurrentStatus img {
     height: 5em;

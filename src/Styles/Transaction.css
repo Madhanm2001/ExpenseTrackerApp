@@ -95,7 +95,8 @@ select {
 }
 
 #ReportChart{
-    width: 50%;
+    width: 65%;
+    margin-left: 15%;
 }
 
 #clearAll {
@@ -137,7 +138,7 @@ table{
 }
 #ReportChart{
     width: 85%;
-    margin-left:20%;
+    margin-left:10%;
 }
 }
 

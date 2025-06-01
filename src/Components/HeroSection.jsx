@@ -189,11 +189,10 @@ function HeroSection() {
               showMonthYearPicker
             />
 
-            <div id="ChartOverview">
-              <Doughnut data={chartData} options={chartOptions} />
-            </div>
             
+
           </div>
+
 
 
 
@@ -201,7 +200,9 @@ function HeroSection() {
 
         </div>
 
-
+{transactions.income!=0 && transactions.expense!=0 &&transactions.total!=0 &&(<div id="ChartOverview">
+              <Doughnut data={chartData} options={chartOptions} />
+            </div>)}
 
         <PopUpModal
           show={show}

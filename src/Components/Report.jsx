@@ -470,12 +470,7 @@ setShowMonth(isSameMonthClicked)
         label: "Expense",
         data: TransactionDataArray?.map((data) => data?.expense||0),
         backgroundColor: "red", 
-      },
-      {
-        label: "Total",
-        data: TransactionDataArray?.map((data) => data?.total||0),
-        backgroundColor: "orange", 
-      },
+      }
     ],
   };
 
@@ -489,7 +484,7 @@ setShowMonth(isSameMonthClicked)
 
 
    const lineData = {
-    labels: TransactionDataArray?.map((data) => !isNaN(data?.date)?MonthName[data?.date-1]:data.date),
+    labels: TransactionDataArray?.map((data) => !isNaN(data?.date)?MonthName[data?.date-1]:data.date.split('T')[0]),
     datasets: [
       {
         label: "Income",
@@ -516,20 +511,7 @@ setShowMonth(isSameMonthClicked)
       pointBackgroundColor: "red",
       pointBorderColor: "red",
       pointHoverRadius: 7,
-      },
-      {
-        label: "Total",
-        data: TransactionDataArray?.map((data) => data?.total||0),
-        backgroundColor: "orange",
-        fill: false,
-      backgroundColor: "orange",
-      borderColor: "orange",
-      tension: 0.4,
-      pointRadius: 5, 
-      pointBackgroundColor: "orange",
-      pointBorderColor: "orange",
-      pointHoverRadius: 7, 
-      },
+      }
     ],
   };
 
@@ -633,51 +615,22 @@ setShowMonth(isSameMonthClicked)
             </section>
             
             {showFilter && <FilterTransaction getTransactionFilterValues={getTransactionFilterValues} />}
-            <h2 style={{textAlign:'center'}}>Transaction History:</h2>
             <div id="TableWrap">
 
                 {/* <Doughnut data={chartData} options={chartOptions} /> */}
             
-                            <div id="ReportChart">
+                           {TransactionDataArray[0]? <div id="ReportChart">
 
-    {TransactionDataArray && TransactionDataArray.length && !isNaN(TransactionDataArray[0].date)> 0 ? (
-
-                                
-        <Bar data={chartData} options={chartOptions} />
+    {TransactionDataArray && TransactionDataArray.length && !isNaN(TransactionDataArray[0].date)> 0 ? (                      
+       TransactionDataArray.length > 0 && <Bar data={chartData} options={chartOptions} />
       ) : (
-        <Line data={lineData} options={lineOptions} />
+       TransactionDataArray.length > 0 && <Line data={lineData} options={lineOptions} />
       )}
+      
                                 
-                            </div>
+         </div>
+:<h1>No Transaction Report Found :(</h1>}
 
-
-            {/* {DateArr&& DateListToogle&& DateArr.length > 0 ?
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Income</th>
-                            <th>Expense</th>
-                            <th>Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {DateArr ? DateArr.map((data, id) => (
-                            isNaN(data.date) ? <tr key={id} >
-                                <td>{data.date}</td>
-                                <td>{data.type === 'income' ? data.amount : '-'}</td>
-                                <td>{data.type === 'expense' ? data.amount : '-'}</td>
-                                <td>{data.total}</td>
-                            </tr> :
-                                <tr key={id} onClick={() => onClickMonth(data.date)}>
-                                    <td>{data.date}</td>
-                                    <td>{data.type === 'income' ? data.amount : '-'}</td>
-                                    <td>{data.type === 'expense' ? data.amount : '-'}</td>
-                                    <td>{data.total}</td>
-                                </tr>
-                        )) : ""}
-                    </tbody>
-                </table>:''} */}
 
 </div>
 

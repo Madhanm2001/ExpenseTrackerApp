@@ -522,9 +522,11 @@ setShowMonth(isSameMonthClicked)
             </section>
             
             {showFilter && <FilterTransaction getTransactionFilterValues={getTransactionFilterValues} />}
-            <h2 style={{textAlign:'center'}}>Transaction History:</h2>
+           {TransactionDataArray[0] && <h2 style={{textAlign:'center'}}>Transaction History:</h2>}
             <div id="TableWrap">
-            {TransactionDataArray && TransactionDataArray.length > 0 ? <table>
+            {TransactionDataArray && TransactionDataArray.length > 0 ? 
+            
+            <table>
                 <thead>
                     <tr>
                         <th>{isNaN(TransactionDataArray[0]?.date) ? 'Date' : 'Month'}</th>
@@ -648,7 +650,7 @@ setShowMonth(isSameMonthClicked)
                     )) : ""}
 
                 </tbody>
-            </table> : <h1>No Transaction Found :)</h1> }
+            </table> : <h1>No Transaction History Found :(</h1> }
 
             {/* {DateArr&& DateListToogle&& DateArr.length > 0 ?
                 <table>

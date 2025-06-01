@@ -1,6 +1,6 @@
 body {
     background-color: rgb(255, 255, 255);
-overflow-x: hidden;
+    overflow-x: hidden;
 }
 
 #HeroSection h2 {
@@ -17,11 +17,18 @@ overflow-x: hidden;
     display: flex;
     justify-content: space-around;
     gap: 10em;
-    margin:0 20%;
+    margin: 0 20%;
 
 }
-#ChartOverview{
-     width: 30%;
+
+#ChartOverview {
+    width: 20%;
+    max-width: 500px;
+    min-width: 250px;
+    margin: 3% 40%;
+    display: flex;
+    justify-content: center;
+
 }
 
 #YearMonthFilter select {
@@ -152,10 +159,11 @@ header h2 {
         width: 40%;
 
     }
-      #ChartOverview{
-    width: 50%;
-    margin-left: 5%;
-}
+
+    #ChartOverview {
+        width: 30%;
+        margin: 2% 35%;
+    }
 
 }
 
@@ -167,27 +175,31 @@ header h2 {
         width: 70%;
 
     }
+
     #YearMonthFilter {
-    display: block;
+        display: block;
     }
-      #ChartOverview{
-    width: 75%;
-    margin-left: 20%;
-    margin-top: 10%;
-}
+
+    #ChartOverview {
+        width: 50%;
+        margin: 3% 25%;
+    }
 
 }
-@media screen and (max-width:400px) {
+
+@media screen and (max-width:480px) {
     #CreateModel {
         top: 30%;
         left: 10%;
         width: 70%;
 
     }
-    #ChartOverview{
-    width: 100%;
-    margin-left: 10%;
-}
+
+    #ChartOverview {
+        width: 20%;
+        margin: 3% 10%;
+        height: 100%;
+    }
 
 }
 

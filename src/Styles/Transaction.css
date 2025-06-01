@@ -95,8 +95,10 @@ select {
 }
 
 #ReportChart{
-    width: 65%;
-    margin-left: 15%;
+    display: flex;
+    justify-content: center;
+    height: 75%;
+    width:50%;
 }
 
 #clearAll {
@@ -118,7 +120,7 @@ table{
 }    
 #ReportChart{
     width: 75%;
-    margin-left:20%;
+    margin-left:15%;
 }
 }
 
